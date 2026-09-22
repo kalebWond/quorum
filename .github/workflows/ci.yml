@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Generates .next/types, which the App Router's generated route and
+      # layout types are declared in — typecheck fails without it.
+      - run: pnpm build
+        env:
+          ANTHROPIC_API_KEY: dummy-key-for-build
+
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
