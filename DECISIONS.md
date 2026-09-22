@@ -372,3 +372,123 @@ significant.
 **Tradeoff:** the verifier checks that a citation _resolves_, not that the
 source _supports the claim_. Attribution to the wrong fetched page is not
 detectable here — that is the critic's job in Feature 9.
+
+---
+
+## 19. The sample run replays through the same reducer as a live run
+
+**Date:** 2026-09-22
+
+`public/fixtures/sample-run.json` is a recorded run, and `useRunStream.replay`
+plays it back at its original pace through `reduceRunEvent` — the same function
+a live run uses.
+
+Two things fall out of that. The timeline could be built and reviewed with no
+API credits at all, which is how Feature 6 got done during a billing outage.
+And the sample cannot drift from reality: it is not a mock of the UI, it is the
+UI driven by the same events the server emits. `fixture.test.ts` validates every
+event in the file against `runEventSchema`, so the fixture breaks loudly if the
+schema moves rather than rotting quietly.
+
+This is also the mechanism Feature 8 needs for "pre-generated sample reports
+anyone can browse without triggering new API calls" — that feature is now
+mostly a matter of recording more fixtures.
+
+**Provenance, stated plainly:** the sample's URLs, titles, fetch timings and
+failure reasons are from a real run on 2026-09-22. The multi-agent shape around
+them is assembled in `scripts/make-fixture.mjs`, because no full end-to-end run
+has been recorded yet. It is a demonstration of the interface, not evidence of
+a result. When a real run can be recorded, the assembly should be replaced with
+a straight conversion of that capture.
+
+---
+
+## 20. Status is shown by shape, not by a legend
+
+**Date:** 2026-09-22
+
+Each agent card carries its role, a coloured status dot, and — while working —
+its own latest note, such as the search query it is running. The detail is
+behind a disclosure: sources with per-fetch timings, reasoning, findings.
+
+Feature 6's done-when is that a visitor understands the run without
+explanation, which rules out a legend or a tooltip glossary. A pulsing blue dot
+next to a live search query reads as "this one is working on that right now"
+with no key to consult; three of them stacked reads as parallelism. Putting the
+per-source detail behind a click keeps the run scannable at a glance while
+still answering "what did it actually read" for anyone who wants it.
+
+The verified report renders through `react-markdown` rather than a hand-rolled
+parser. The content is model output, so the renderer has to be safe by
+construction; react-markdown builds React elements and never touches
+`dangerouslySetInnerHTML`.
+
+---
+
+## 21. The run budget is denominated in dollars
+
+**Date:** 2026-09-22
+
+`RunBudget` caps one run at $0.25, 20 model calls, and 55 seconds. Every agent
+in a run shares one instance, claims a call with `beginCall()` before the
+request, and reports what it cost with `record()` after.
+
+Dollars rather than tokens because Feature 8's done-when is about a bill. A
+token ceiling has to be re-derived whenever the model, the prompt shape, or the
+caching strategy changes; a dollar ceiling keeps meaning the same thing. The
+prices live in one table next to the estimator.
+
+The ordering is the part that matters. A limit checked _after_ a call has
+already been paid for, which is exactly how the ~$4.50 session went: runs that
+returned nothing still billed for everything they generated before being
+aborted. `beginCall()` refuses first and spends nothing.
+
+Two deliberate details. The 55s ceiling sits under Vercel's 60s so a run ends
+itself with a readable message instead of being killed mid-stream. And a
+researcher that cannot afford another turn stops with what it has rather than
+failing — a partial answer beats no answer, which is the same reasoning as
+decision 14.
+
+---
+
+## 22. The rate limiter leaks, and the budget is why that is acceptable
+
+**Date:** 2026-09-22
+
+Per-visitor limiting is a fixed window counted in memory: 5 runs per hour,
+keyed on the forwarded client IP.
+
+It genuinely leaks. Serverless runs several instances, each with its own map,
+so a determined visitor gets roughly (limit x instances) — and `x-forwarded-for`
+is spoofable anyway. A hot reload during development demonstrated the same
+weakness by resetting the counter mid-test.
+
+It is still worth having, because it stops the realistic failure for a
+portfolio demo: someone clicking repeatedly, or a loop hitting the endpoint by
+accident. What it is not is a defence against someone trying, and the honest
+mitigation is that it does not need to be one — the per-run budget bounds what
+any single run can spend no matter how many get through. One leaky limit
+multiplied by a hard ceiling is still a bounded bill.
+
+Feature 7 brings a shared datastore, at which point this moves there and
+becomes exact.
+
+---
+
+## 23. A provider 400 is this deployment's problem, not the visitor's
+
+**Date:** 2026-09-22
+
+`Anthropic.BadRequestError` now maps to "Quorum cannot run new research right
+now. Use 'Watch a sample run' to see a finished run in full."
+
+An exhausted credit balance arrives as a 400, and the previous message — "The
+model request failed (400)" — was what every visitor to the public demo saw
+while the balance was empty. It is accurate, tells them nothing they can act
+on, and leaves a page whose description promises a working system.
+
+Pairing the message with the sample run is what makes the difference: the demo
+degrades to something that still shows the whole system working, rather than to
+an error. That is the other half of Feature 8's done-when — a visitor with no
+quota left still has something to explore — and it applies just as well when
+the quota that ran out is the operator's.

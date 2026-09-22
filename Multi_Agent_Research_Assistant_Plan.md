@@ -174,7 +174,7 @@ I'm a senior full-stack engineer (TypeScript, React/Next.js, Node.js, PostgreSQL
 
 **Done when:** The demo can't run up an unexpected bill, and a visitor with no quota left still has something to explore.
 
-**Note:** the per-run token controls landed early, during Feature 4 (2026-09-22), after a development session spent ~$4.50 mostly on timed-out runs: prompt caching on the researcher loop, a lower turn ceiling, a smaller page cap, and per-researcher token logging. What remains for this feature is per-visitor rate limiting, the pre-generated sample reports, and the friendly limit messages. See `DECISIONS.md` entries 15 and 16.
+**Status (2026-09-22):** per-run limits (`budget.ts`), per-visitor rate limiting (`rate-limit.ts`), the sample run, and friendly limit messages are all in. Verified without credits: the rate limiter refuses the 6th request in an hour, and a provider 400 degrades to the sample-run message. The sample-run mechanism landed early, during Feature 6 — `public/fixtures/` plus `useRunStream.replay` already browse a finished run without an API call, so this feature mostly needs more fixtures recorded. The per-run token controls also landed early, during Feature 4 (2026-09-22), after a development session spent ~$4.50 mostly on timed-out runs: prompt caching on the researcher loop, a lower turn ceiling, a smaller page cap, and per-researcher token logging. What remains for this feature is per-visitor rate limiting, the pre-generated sample reports, and the friendly limit messages. See `DECISIONS.md` entries 15 and 16.
 
 ---
 

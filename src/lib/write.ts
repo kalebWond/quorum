@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { getAnthropic, MODEL } from "./anthropic";
+import type { RunBudget } from "./budget";
 import {
   buildSourceList,
   verifyCitations,
@@ -94,12 +95,14 @@ export async function runWriter(
   agentId: string,
   emit: EmitFn,
   signal: AbortSignal,
+  budget: RunBudget,
 ): Promise<WriterResult> {
   const sources = buildSourceList(
     outcomes.map((outcome) => (outcome.ok ? outcome.result.sources : [])),
   );
 
   emit({ type: "agent_progress", agentId, note: "Writing the report…" });
+  budget.beginCall();
 
   const stream = getAnthropic().messages.stream({
     model: MODEL,
@@ -130,6 +133,13 @@ export async function runWriter(
   }
 
   const message: Anthropic.Message = await stream.finalMessage();
+  budget.record({
+    input: message.usage.input_tokens,
+    output: message.usage.output_tokens,
+    cacheRead: message.usage.cache_read_input_tokens ?? 0,
+    cacheWrite: message.usage.cache_creation_input_tokens ?? 0,
+  });
+
   if (message.stop_reason === "refusal") {
     throw new WriteError("The model declined to write this report.");
   }

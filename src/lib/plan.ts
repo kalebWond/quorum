@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { getAnthropic, MODEL } from "./anthropic";
+import type { RunBudget } from "./budget";
 import type { EmitFn } from "./events";
 
 /**
@@ -97,6 +98,7 @@ export async function runPlanner(
   agentId: string,
   emit: EmitFn,
   signal: AbortSignal,
+  budget: RunBudget,
 ): Promise<Plan> {
   emit({ type: "agent_progress", agentId, note: "Planning…" });
 
@@ -107,6 +109,9 @@ export async function runPlanner(
   let lastError = "the planner returned nothing usable";
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    // Claimed before the request, so a run already over budget spends nothing.
+    budget.beginCall();
+
     const stream = getAnthropic().messages.stream({
       model: MODEL,
       max_tokens: MAX_TOKENS,
@@ -139,6 +144,13 @@ export async function runPlanner(
     }
 
     const message = await stream.finalMessage();
+    budget.record({
+      input: message.usage.input_tokens,
+      output: message.usage.output_tokens,
+      cacheRead: message.usage.cache_read_input_tokens ?? 0,
+      cacheWrite: message.usage.cache_creation_input_tokens ?? 0,
+    });
+
     if (message.stop_reason === "refusal") {
       throw new PlanError("The model declined to plan this question.");
     }

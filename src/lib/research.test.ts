@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+import { RunBudget } from "./budget";
 import type { RunEventBody } from "./events";
 import { ResearchError, runResearchers, type ResearchResult } from "./research";
 
@@ -14,6 +15,9 @@ import { ResearchError, runResearchers, type ResearchResult } from "./research";
  */
 
 const SUBS = ["one?", "two?", "three?"];
+
+/** Generous enough that the budget never interferes with what is under test. */
+const budget = () => new RunBudget({ usd: 100, calls: 1000, ms: 600_000 });
 
 /** Collects emitted events so a test can assert on what the UI would see. */
 function recorder() {
@@ -48,6 +52,7 @@ describe("runResearchers", () => {
       SUBS,
       rec.emit,
       new AbortController().signal,
+      budget(),
       { run },
     );
 
@@ -68,6 +73,7 @@ describe("runResearchers", () => {
       SUBS,
       rec.emit,
       new AbortController().signal,
+      budget(),
       { run },
     );
 
@@ -95,6 +101,7 @@ describe("runResearchers", () => {
       SUBS,
       rec.emit,
       new AbortController().signal,
+      budget(),
       { run },
     );
 
@@ -123,6 +130,7 @@ describe("runResearchers", () => {
       ["slow?"],
       rec.emit,
       new AbortController().signal,
+      budget(),
       { run, timeoutMs: 20 },
     );
 
@@ -153,6 +161,7 @@ describe("runResearchers", () => {
       SUBS,
       rec.emit,
       new AbortController().signal,
+      budget(),
       { run, timeoutMs: 20 },
     );
 
@@ -174,7 +183,13 @@ describe("runResearchers", () => {
         }),
     );
 
-    const promise = runResearchers(SUBS, rec.emit, controller.signal, { run });
+    const promise = runResearchers(
+      SUBS,
+      rec.emit,
+      controller.signal,
+      budget(),
+      { run },
+    );
     controller.abort();
 
     await expect(promise).rejects.toThrow("aborted");
@@ -193,6 +208,7 @@ describe("runResearchers", () => {
       ["one?"],
       rec.emit,
       new AbortController().signal,
+      budget(),
       { run },
     );
 
@@ -213,6 +229,7 @@ describe("runResearchers", () => {
       ["one?"],
       rec.emit,
       new AbortController().signal,
+      budget(),
       { run },
     );
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { readSSEFrame, splitSSEFrames } from "./events";
+import { readSSEFrame, splitSSEFrames, type RunEvent } from "./events";
 import { initialRunState, reduceRunEvent, type RunState } from "./run-stream";
 
 /**
@@ -78,5 +78,52 @@ export function useRunStream() {
     }
   }, []);
 
-  return { state, start, stop };
+  /**
+   * Replays a recorded run at its original pace.
+   *
+   * Goes through the same reducer as a live run, so the timeline cannot
+   * diverge between the two. This is what lets the UI be built and shown
+   * without spending an API call, and it is the mechanism Feature 8's
+   * pre-generated samples will use.
+   */
+  const replay = useCallback(async (url: string, speed = 1) => {
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
+    let fixture: { question: string; events: RunEvent[] };
+    try {
+      const response = await fetch(url, { signal: controller.signal });
+      fixture = await response.json();
+    } catch (error) {
+      if (controller.signal.aborted) return;
+      setState((prev) => ({
+        ...prev,
+        status: "failed",
+        error:
+          error instanceof Error ? error.message : "Could not load sample.",
+      }));
+      return;
+    }
+
+    setState({
+      ...initialRunState,
+      question: fixture.question,
+      status: "running",
+    });
+
+    const started = Date.now();
+    for (const event of fixture.events) {
+      const due = started + event.ts / speed - Date.now();
+      if (due > 0) {
+        await new Promise((resolve) => setTimeout(resolve, due));
+      }
+      if (controller.signal.aborted) return;
+      setState((prev) => reduceRunEvent(prev, event));
+    }
+
+    if (abortRef.current === controller) abortRef.current = null;
+  }, []);
+
+  return { state, start, replay, stop };
 }

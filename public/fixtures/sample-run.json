@@ -1,0 +1,3087 @@
+{
+  "question": "What did the EU announce about AI regulation in 2026?",
+  "events": [
+    {
+      "type": "run_started",
+      "question": "What did the EU announce about AI regulation in 2026?",
+      "runId": "sample-run",
+      "seq": 0,
+      "ts": 0
+    },
+    {
+      "type": "agent_started",
+      "agentId": "agent-planner",
+      "role": "planner",
+      "label": "Planner",
+      "runId": "sample-run",
+      "seq": 1,
+      "ts": 60
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "note": "Planning…",
+      "runId": "sample-run",
+      "seq": 2,
+      "ts": 120
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "The ",
+      "runId": "sample-run",
+      "seq": 3,
+      "ts": 400
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "question ",
+      "runId": "sample-run",
+      "seq": 4,
+      "ts": 488
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "spans ",
+      "runId": "sample-run",
+      "seq": 5,
+      "ts": 576
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "a ",
+      "runId": "sample-run",
+      "seq": 6,
+      "ts": 664
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "whole ",
+      "runId": "sample-run",
+      "seq": 7,
+      "ts": 752
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "year ",
+      "runId": "sample-run",
+      "seq": 8,
+      "ts": 840
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "of ",
+      "runId": "sample-run",
+      "seq": 9,
+      "ts": 928
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "policy, ",
+      "runId": "sample-run",
+      "seq": 10,
+      "ts": 1016
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "so ",
+      "runId": "sample-run",
+      "seq": 11,
+      "ts": 1104
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "it ",
+      "runId": "sample-run",
+      "seq": 12,
+      "ts": 1192
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "needs ",
+      "runId": "sample-run",
+      "seq": 13,
+      "ts": 1280
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "splitting ",
+      "runId": "sample-run",
+      "seq": 14,
+      "ts": 1368
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "by ",
+      "runId": "sample-run",
+      "seq": 15,
+      "ts": 1456
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "theme ",
+      "runId": "sample-run",
+      "seq": 16,
+      "ts": 1544
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "rather ",
+      "runId": "sample-run",
+      "seq": 17,
+      "ts": 1632
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "than ",
+      "runId": "sample-run",
+      "seq": 18,
+      "ts": 1720
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "by ",
+      "runId": "sample-run",
+      "seq": 19,
+      "ts": 1808
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "date ",
+      "runId": "sample-run",
+      "seq": 20,
+      "ts": 1896
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "— ",
+      "runId": "sample-run",
+      "seq": 21,
+      "ts": 1984
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "enforcement, ",
+      "runId": "sample-run",
+      "seq": 22,
+      "ts": 2072
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "the ",
+      "runId": "sample-run",
+      "seq": 23,
+      "ts": 2160
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "legislative ",
+      "runId": "sample-run",
+      "seq": 24,
+      "ts": 2248
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "change, ",
+      "runId": "sample-run",
+      "seq": 25,
+      "ts": 2336
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "and ",
+      "runId": "sample-run",
+      "seq": 26,
+      "ts": 2424
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-planner",
+      "delta": "reaction.",
+      "runId": "sample-run",
+      "seq": 27,
+      "ts": 2512
+    },
+    {
+      "type": "plan_ready",
+      "subQuestions": [
+        "What transparency rules under the EU AI Act took effect in 2026, and who enforces them?",
+        "What did the Digital Omnibus on AI change about the high-risk AI timeline?",
+        "How have industry and member states responded to the 2026 changes?"
+      ],
+      "runId": "sample-run",
+      "seq": 28,
+      "ts": 3200
+    },
+    {
+      "type": "agent_finished",
+      "agentId": "agent-planner",
+      "summary": "Split into 3 sub-questions.",
+      "runId": "sample-run",
+      "seq": 29,
+      "ts": 3250
+    },
+    {
+      "type": "agent_started",
+      "agentId": "agent-r1",
+      "role": "researcher",
+      "label": "What transparency rules under the EU AI Act took effect in 2026, and who enforces them?",
+      "runId": "sample-run",
+      "seq": 30,
+      "ts": 3300
+    },
+    {
+      "type": "agent_started",
+      "agentId": "agent-r2",
+      "role": "researcher",
+      "label": "What did the Digital Omnibus on AI change about the high-risk AI timeline?",
+      "runId": "sample-run",
+      "seq": 31,
+      "ts": 3340
+    },
+    {
+      "type": "agent_started",
+      "agentId": "agent-r3",
+      "role": "researcher",
+      "label": "How have industry and member states responded to the 2026 changes?",
+      "runId": "sample-run",
+      "seq": 32,
+      "ts": 3380
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "note": "Thinking…",
+      "runId": "sample-run",
+      "seq": 33,
+      "ts": 3400
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "note": "Thinking…",
+      "runId": "sample-run",
+      "seq": 34,
+      "ts": 3440
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "note": "Thinking…",
+      "runId": "sample-run",
+      "seq": 35,
+      "ts": 3480
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "note": "Searching: \"EU AI Act transparency August 2026\"",
+      "runId": "sample-run",
+      "seq": 36,
+      "ts": 5100
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "note": "Searching: \"digital omnibus AI high-risk delay\"",
+      "runId": "sample-run",
+      "seq": 37,
+      "ts": 5440
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "note": "Searching: \"industry response EU AI Act 2026\"",
+      "runId": "sample-run",
+      "seq": 38,
+      "ts": 5780
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "note": "Found 9 results",
+      "runId": "sample-run",
+      "seq": 39,
+      "ts": 7500
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "note": "Found 9 results",
+      "runId": "sample-run",
+      "seq": 40,
+      "ts": 7940
+    },
+    {
+      "type": "agent_source",
+      "agentId": "agent-r2",
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/05/07/artificial-intelligence-council-and-parliament-agree-to-simplify-and-streamline-rules/",
+      "status": "fetching",
+      "runId": "sample-run",
+      "seq": 41,
+      "ts": 8340
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "note": "Found 9 results",
+      "runId": "sample-run",
+      "seq": 42,
+      "ts": 8380
+    },
+    {
+      "type": "agent_source",
+      "agentId": "agent-r2",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_1714",
+      "status": "fetching",
+      "runId": "sample-run",
+      "seq": 43,
+      "ts": 8460
+    },
+    {
+      "type": "agent_source",
+      "agentId": "agent-r2",
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/05/07/artificial-intelligence-council-and-parliament-agree-to-simplify-and-streamline-rules/",
+      "status": "failed",
+      "error": "HTTP 403",
+      "ms": 175,
+      "runId": "sample-run",
+      "seq": 44,
+      "ts": 8515
+    },
+    {
+      "type": "agent_source",
+      "agentId": "agent-r2",
+      "url": "https://ec.europa.eu/commission/presscorner/detail/en/ip_26_1714",
+      "status": "failed",
+      "error": "page had no readable text",
+      "ms": 535,
+      "runId": "sample-run",
+      "seq": 45,
+      "ts": 8995
+    },
+    {
+      "type": "agent_source",
+      "agentId": "agent-r1",
+      "url": "https://digital-strategy.ec.europa.eu/en/news/commission-starts-enforcing-ai-act-rules-and-new-transparency-requirements-2-august",
+      "status": "fetching",
+      "runId": "sample-run",
+      "seq": 46,
+      "ts": 9500
+    },
+    {
+      "type": "agent_source",
+      "agentId": "agent-r2",
+      "url": "https://www.gibsondunn.com/eu-ai-act-omnibus-agreement-postponed-high-risk-deadlines-and-other-key-changes/",
+      "status": "fetching",
+      "runId": "sample-run",
+      "seq": 47,
+      "ts": 9540
+    },
+    {
+      "type": "agent_source",
+      "agentId": "agent-r3",
+      "url": "https://www.europarl.europa.eu/news/en/press-room/2026-digital-omnibus-vote",
+      "status": "fetching",
+      "runId": "sample-run",
+      "seq": 48,
+      "ts": 9580
+    },
+    {
+      "type": "agent_source",
+      "agentId": "agent-r1",
+      "url": "https://digital-strategy.ec.europa.eu/en/news/commission-starts-enforcing-ai-act-rules-and-new-transparency-requirements-2-august",
+      "status": "ok",
+      "title": "Commission starts enforcing AI Act rules and new transparency requirements on 2 August",
+      "ms": 669,
+      "bytes": 50865,
+      "runId": "sample-run",
+      "seq": 49,
+      "ts": 10169
+    },
+    {
+      "type": "agent_source",
+      "agentId": "agent-r3",
+      "url": "https://www.europarl.europa.eu/news/en/press-room/2026-digital-omnibus-vote",
+      "status": "ok",
+      "title": "Parliament endorses the Digital Omnibus on AI",
+      "ms": 842,
+      "bytes": 38210,
+      "runId": "sample-run",
+      "seq": 50,
+      "ts": 10422
+    },
+    {
+      "type": "agent_source",
+      "agentId": "agent-r2",
+      "url": "https://www.gibsondunn.com/eu-ai-act-omnibus-agreement-postponed-high-risk-deadlines-and-other-key-changes/",
+      "status": "ok",
+      "title": "EU AI Act Omnibus Agreement — Postponed High-Risk Deadlines and Other Key Changes",
+      "ms": 1231,
+      "bytes": 201770,
+      "runId": "sample-run",
+      "seq": 51,
+      "ts": 10771
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "- ",
+      "runId": "sample-run",
+      "seq": 52,
+      "ts": 10900
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "- ",
+      "runId": "sample-run",
+      "seq": 53,
+      "ts": 10940
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "New ",
+      "runId": "sample-run",
+      "seq": 54,
+      "ts": 10947
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "- ",
+      "runId": "sample-run",
+      "seq": 55,
+      "ts": 10980
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "transparency ",
+      "runId": "sample-run",
+      "seq": 56,
+      "ts": 10994
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "The ",
+      "runId": "sample-run",
+      "seq": 57,
+      "ts": 11002
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "rules ",
+      "runId": "sample-run",
+      "seq": 58,
+      "ts": 11041
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "Digital ",
+      "runId": "sample-run",
+      "seq": 59,
+      "ts": 11064
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "took ",
+      "runId": "sample-run",
+      "seq": 60,
+      "ts": 11088
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "The ",
+      "runId": "sample-run",
+      "seq": 61,
+      "ts": 11103
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "Omnibus ",
+      "runId": "sample-run",
+      "seq": 62,
+      "ts": 11126
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "effect ",
+      "runId": "sample-run",
+      "seq": 63,
+      "ts": 11134
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "2 ",
+      "runId": "sample-run",
+      "seq": 64,
+      "ts": 11181
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "on ",
+      "runId": "sample-run",
+      "seq": 65,
+      "ts": 11188
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "package ",
+      "runId": "sample-run",
+      "seq": 66,
+      "ts": 11226
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "August ",
+      "runId": "sample-run",
+      "seq": 67,
+      "ts": 11228
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "AI ",
+      "runId": "sample-run",
+      "seq": 68,
+      "ts": 11250
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "2026; ",
+      "runId": "sample-run",
+      "seq": 69,
+      "ts": 11275
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "postponed ",
+      "runId": "sample-run",
+      "seq": 70,
+      "ts": 11311
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "the ",
+      "runId": "sample-run",
+      "seq": 71,
+      "ts": 11322
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "passed ",
+      "runId": "sample-run",
+      "seq": 72,
+      "ts": 11349
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "Commission's ",
+      "runId": "sample-run",
+      "seq": 73,
+      "ts": 11369
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "high-risk ",
+      "runId": "sample-run",
+      "seq": 74,
+      "ts": 11373
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "AI ",
+      "runId": "sample-run",
+      "seq": 75,
+      "ts": 11416
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "obligations: ",
+      "runId": "sample-run",
+      "seq": 76,
+      "ts": 11435
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "Office ",
+      "runId": "sample-run",
+      "seq": 77,
+      "ts": 11463
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "Parliament ",
+      "runId": "sample-run",
+      "seq": 78,
+      "ts": 11472
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "standalone ",
+      "runId": "sample-run",
+      "seq": 79,
+      "ts": 11497
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "enforces ",
+      "runId": "sample-run",
+      "seq": 80,
+      "ts": 11509
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "them ",
+      "runId": "sample-run",
+      "seq": 81,
+      "ts": 11556
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "Annex ",
+      "runId": "sample-run",
+      "seq": 82,
+      "ts": 11559
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "423-57 ",
+      "runId": "sample-run",
+      "seq": 83,
+      "ts": 11595
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "with ",
+      "runId": "sample-run",
+      "seq": 84,
+      "ts": 11603
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "III ",
+      "runId": "sample-run",
+      "seq": 85,
+      "ts": 11621
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "national ",
+      "runId": "sample-run",
+      "seq": 86,
+      "ts": 11650
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "systems ",
+      "runId": "sample-run",
+      "seq": 87,
+      "ts": 11683
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "authorities.\n",
+      "runId": "sample-run",
+      "seq": 88,
+      "ts": 11697
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "with ",
+      "runId": "sample-run",
+      "seq": 89,
+      "ts": 11718
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "- ",
+      "runId": "sample-run",
+      "seq": 90,
+      "ts": 11744
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "to ",
+      "runId": "sample-run",
+      "seq": 91,
+      "ts": 11745
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "Systems ",
+      "runId": "sample-run",
+      "seq": 92,
+      "ts": 11791
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "2 ",
+      "runId": "sample-run",
+      "seq": 93,
+      "ts": 11807
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "such ",
+      "runId": "sample-run",
+      "seq": 94,
+      "ts": 11838
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "174 ",
+      "runId": "sample-run",
+      "seq": 95,
+      "ts": 11842
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "December ",
+      "runId": "sample-run",
+      "seq": 96,
+      "ts": 11869
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "as ",
+      "runId": "sample-run",
+      "seq": 97,
+      "ts": 11884
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "2027, ",
+      "runId": "sample-run",
+      "seq": 98,
+      "ts": 11930
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "chatbots, ",
+      "runId": "sample-run",
+      "seq": 99,
+      "ts": 11931
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "abstentions, ",
+      "runId": "sample-run",
+      "seq": 100,
+      "ts": 11965
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "voice ",
+      "runId": "sample-run",
+      "seq": 101,
+      "ts": 11978
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "AI ",
+      "runId": "sample-run",
+      "seq": 102,
+      "ts": 11992
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "assistants ",
+      "runId": "sample-run",
+      "seq": 103,
+      "ts": 12025
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "embedded ",
+      "runId": "sample-run",
+      "seq": 104,
+      "ts": 12054
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "and ",
+      "runId": "sample-run",
+      "seq": 105,
+      "ts": 12072
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "which ",
+      "runId": "sample-run",
+      "seq": 106,
+      "ts": 12088
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "in ",
+      "runId": "sample-run",
+      "seq": 107,
+      "ts": 12116
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "AI ",
+      "runId": "sample-run",
+      "seq": 108,
+      "ts": 12119
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "agents ",
+      "runId": "sample-run",
+      "seq": 109,
+      "ts": 12166
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "regulated ",
+      "runId": "sample-run",
+      "seq": 110,
+      "ts": 12178
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "industry ",
+      "runId": "sample-run",
+      "seq": 111,
+      "ts": 12211
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "must ",
+      "runId": "sample-run",
+      "seq": 112,
+      "ts": 12213
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "products ",
+      "runId": "sample-run",
+      "seq": 113,
+      "ts": 12240
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "disclose ",
+      "runId": "sample-run",
+      "seq": 114,
+      "ts": 12259
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "to ",
+      "runId": "sample-run",
+      "seq": 115,
+      "ts": 12302
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "that ",
+      "runId": "sample-run",
+      "seq": 116,
+      "ts": 12306
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "groups ",
+      "runId": "sample-run",
+      "seq": 117,
+      "ts": 12334
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "a ",
+      "runId": "sample-run",
+      "seq": 118,
+      "ts": 12353
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "2 ",
+      "runId": "sample-run",
+      "seq": 119,
+      "ts": 12364
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "user ",
+      "runId": "sample-run",
+      "seq": 120,
+      "ts": 12400
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "August ",
+      "runId": "sample-run",
+      "seq": 121,
+      "ts": 12426
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "is ",
+      "runId": "sample-run",
+      "seq": 122,
+      "ts": 12447
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "read ",
+      "runId": "sample-run",
+      "seq": 123,
+      "ts": 12457
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "2028.\n",
+      "runId": "sample-run",
+      "seq": 124,
+      "ts": 12488
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "interacting ",
+      "runId": "sample-run",
+      "seq": 125,
+      "ts": 12494
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "with ",
+      "runId": "sample-run",
+      "seq": 126,
+      "ts": 12541
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "- ",
+      "runId": "sample-run",
+      "seq": 127,
+      "ts": 12550
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "as ",
+      "runId": "sample-run",
+      "seq": 128,
+      "ts": 12580
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "AI, ",
+      "runId": "sample-run",
+      "seq": 129,
+      "ts": 12588
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "Article ",
+      "runId": "sample-run",
+      "seq": 130,
+      "ts": 12611
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "unless ",
+      "runId": "sample-run",
+      "seq": 131,
+      "ts": 12634
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "50's ",
+      "runId": "sample-run",
+      "seq": 132,
+      "ts": 12673
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "it ",
+      "runId": "sample-run",
+      "seq": 133,
+      "ts": 12681
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "broad ",
+      "runId": "sample-run",
+      "seq": 134,
+      "ts": 12703
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "is ",
+      "runId": "sample-run",
+      "seq": 135,
+      "ts": 12728
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "transparency ",
+      "runId": "sample-run",
+      "seq": 136,
+      "ts": 12735
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "already ",
+      "runId": "sample-run",
+      "seq": 137,
+      "ts": 12775
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "duties ",
+      "runId": "sample-run",
+      "seq": 138,
+      "ts": 12797
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "obvious.\n",
+      "runId": "sample-run",
+      "seq": 139,
+      "ts": 12822
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "support ",
+      "runId": "sample-run",
+      "seq": 140,
+      "ts": 12826
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "were ",
+      "runId": "sample-run",
+      "seq": 141,
+      "ts": 12859
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "- ",
+      "runId": "sample-run",
+      "seq": 142,
+      "ts": 12869
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "The ",
+      "runId": "sample-run",
+      "seq": 143,
+      "ts": 12916
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "NOT ",
+      "runId": "sample-run",
+      "seq": 144,
+      "ts": 12921
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "for ",
+      "runId": "sample-run",
+      "seq": 145,
+      "ts": 12949
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "Commission ",
+      "runId": "sample-run",
+      "seq": 146,
+      "ts": 12963
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "delayed; ",
+      "runId": "sample-run",
+      "seq": 147,
+      "ts": 12983
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "published ",
+      "runId": "sample-run",
+      "seq": 148,
+      "ts": 13009
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "systems ",
+      "runId": "sample-run",
+      "seq": 149,
+      "ts": 13045
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "a ",
+      "runId": "sample-run",
+      "seq": 150,
+      "ts": 13056
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "recalibration ",
+      "runId": "sample-run",
+      "seq": 151,
+      "ts": 13072
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "first ",
+      "runId": "sample-run",
+      "seq": 152,
+      "ts": 13103
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "placed ",
+      "runId": "sample-run",
+      "seq": 153,
+      "ts": 13107
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "list ",
+      "runId": "sample-run",
+      "seq": 154,
+      "ts": 13150
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "on ",
+      "runId": "sample-run",
+      "seq": 155,
+      "ts": 13169
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "rather ",
+      "runId": "sample-run",
+      "seq": 156,
+      "ts": 13195
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "of ",
+      "runId": "sample-run",
+      "seq": 157,
+      "ts": 13197
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "the ",
+      "runId": "sample-run",
+      "seq": 158,
+      "ts": 13230
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "180+ ",
+      "runId": "sample-run",
+      "seq": 159,
+      "ts": 13244
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "organisations ",
+      "runId": "sample-run",
+      "seq": 160,
+      "ts": 13291
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "market ",
+      "runId": "sample-run",
+      "seq": 161,
+      "ts": 13292
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "than ",
+      "runId": "sample-run",
+      "seq": 162,
+      "ts": 13318
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "signed ",
+      "runId": "sample-run",
+      "seq": 163,
+      "ts": 13338
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "before ",
+      "runId": "sample-run",
+      "seq": 164,
+      "ts": 13354
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "up ",
+      "runId": "sample-run",
+      "seq": 165,
+      "ts": 13384
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "2 ",
+      "runId": "sample-run",
+      "seq": 166,
+      "ts": 13416
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "to ",
+      "runId": "sample-run",
+      "seq": 167,
+      "ts": 13431
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "retreat.\n",
+      "runId": "sample-run",
+      "seq": 168,
+      "ts": 13442
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "the ",
+      "runId": "sample-run",
+      "seq": 169,
+      "ts": 13478
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "August ",
+      "runId": "sample-run",
+      "seq": 170,
+      "ts": 13478
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "Code ",
+      "runId": "sample-run",
+      "seq": 171,
+      "ts": 13525
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "2026 ",
+      "runId": "sample-run",
+      "seq": 172,
+      "ts": 13540
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "- ",
+      "runId": "sample-run",
+      "seq": 173,
+      "ts": 13565
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "of ",
+      "runId": "sample-run",
+      "seq": 174,
+      "ts": 13572
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "get ",
+      "runId": "sample-run",
+      "seq": 175,
+      "ts": 13602
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "Practice ",
+      "runId": "sample-run",
+      "seq": 176,
+      "ts": 13619
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "until ",
+      "runId": "sample-run",
+      "seq": 177,
+      "ts": 13664
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "on ",
+      "runId": "sample-run",
+      "seq": 178,
+      "ts": 13666
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "Analysts ",
+      "runId": "sample-run",
+      "seq": 179,
+      "ts": 13688
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "transparency ",
+      "runId": "sample-run",
+      "seq": 180,
+      "ts": 13713
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "2 ",
+      "runId": "sample-run",
+      "seq": 181,
+      "ts": 13726
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "of ",
+      "runId": "sample-run",
+      "seq": 182,
+      "ts": 13759
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "December ",
+      "runId": "sample-run",
+      "seq": 183,
+      "ts": 13788
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "AI-generated ",
+      "runId": "sample-run",
+      "seq": 184,
+      "ts": 13806
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "frame ",
+      "runId": "sample-run",
+      "seq": 185,
+      "ts": 13811
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "2026 ",
+      "runId": "sample-run",
+      "seq": 186,
+      "ts": 13850
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r1",
+      "delta": "content.",
+      "runId": "sample-run",
+      "seq": 187,
+      "ts": 13853
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "for ",
+      "runId": "sample-run",
+      "seq": 188,
+      "ts": 13911
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "the ",
+      "runId": "sample-run",
+      "seq": 189,
+      "ts": 13934
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "the ",
+      "runId": "sample-run",
+      "seq": 190,
+      "ts": 13973
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "watermarking ",
+      "runId": "sample-run",
+      "seq": 191,
+      "ts": 14035
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "delay ",
+      "runId": "sample-run",
+      "seq": 192,
+      "ts": 14057
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "obligation.\n",
+      "runId": "sample-run",
+      "seq": 193,
+      "ts": 14097
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "- ",
+      "runId": "sample-run",
+      "seq": 194,
+      "ts": 14159
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "as ",
+      "runId": "sample-run",
+      "seq": 195,
+      "ts": 14180
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "Adopted ",
+      "runId": "sample-run",
+      "seq": 196,
+      "ts": 14221
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "as ",
+      "runId": "sample-run",
+      "seq": 197,
+      "ts": 14283
+    },
+    {
+      "type": "agent_finished",
+      "agentId": "agent-r1",
+      "summary": "Read 1 source.",
+      "runId": "sample-run",
+      "seq": 198,
+      "ts": 14300
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "driven ",
+      "runId": "sample-run",
+      "seq": 199,
+      "ts": 14303
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "Regulation ",
+      "runId": "sample-run",
+      "seq": 200,
+      "ts": 14345
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "(EU) ",
+      "runId": "sample-run",
+      "seq": 201,
+      "ts": 14407
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "by ",
+      "runId": "sample-run",
+      "seq": 202,
+      "ts": 14426
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "2026/1744, ",
+      "runId": "sample-run",
+      "seq": 203,
+      "ts": 14469
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "in ",
+      "runId": "sample-run",
+      "seq": 204,
+      "ts": 14530
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "unfinished ",
+      "runId": "sample-run",
+      "seq": 205,
+      "ts": 14549
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "force ",
+      "runId": "sample-run",
+      "seq": 206,
+      "ts": 14592
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "27 ",
+      "runId": "sample-run",
+      "seq": 207,
+      "ts": 14654
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "harmonised ",
+      "runId": "sample-run",
+      "seq": 208,
+      "ts": 14672
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "July ",
+      "runId": "sample-run",
+      "seq": 209,
+      "ts": 14716
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r2",
+      "delta": "2026.",
+      "runId": "sample-run",
+      "seq": 210,
+      "ts": 14778
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "standards, ",
+      "runId": "sample-run",
+      "seq": 211,
+      "ts": 14795
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "not ",
+      "runId": "sample-run",
+      "seq": 212,
+      "ts": 14918
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "by ",
+      "runId": "sample-run",
+      "seq": 213,
+      "ts": 15042
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "a ",
+      "runId": "sample-run",
+      "seq": 214,
+      "ts": 15165
+    },
+    {
+      "type": "agent_started",
+      "agentId": "agent-writer",
+      "role": "writer",
+      "label": "Writer",
+      "runId": "sample-run",
+      "seq": 215,
+      "ts": 15200
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "note": "Writing the report…",
+      "runId": "sample-run",
+      "seq": 216,
+      "ts": 15280
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "change ",
+      "runId": "sample-run",
+      "seq": 217,
+      "ts": 15288
+    },
+    {
+      "type": "agent_finished",
+      "agentId": "agent-r2",
+      "summary": "Read 1 source.",
+      "runId": "sample-run",
+      "seq": 218,
+      "ts": 15340
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "of ",
+      "runId": "sample-run",
+      "seq": 219,
+      "ts": 15411
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "policy ",
+      "runId": "sample-run",
+      "seq": 220,
+      "ts": 15534
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-r3",
+      "delta": "direction.",
+      "runId": "sample-run",
+      "seq": 221,
+      "ts": 15657
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "## ",
+      "runId": "sample-run",
+      "seq": 222,
+      "ts": 16100
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "What ",
+      "runId": "sample-run",
+      "seq": 223,
+      "ts": 16139
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "changed\n\n",
+      "runId": "sample-run",
+      "seq": 224,
+      "ts": 16179
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "The ",
+      "runId": "sample-run",
+      "seq": 225,
+      "ts": 16218
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "EU ",
+      "runId": "sample-run",
+      "seq": 226,
+      "ts": 16258
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "did ",
+      "runId": "sample-run",
+      "seq": 227,
+      "ts": 16297
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "two ",
+      "runId": "sample-run",
+      "seq": 228,
+      "ts": 16337
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "things ",
+      "runId": "sample-run",
+      "seq": 229,
+      "ts": 16376
+    },
+    {
+      "type": "agent_finished",
+      "agentId": "agent-r3",
+      "summary": "Read 1 source.",
+      "runId": "sample-run",
+      "seq": 230,
+      "ts": 16380
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "in ",
+      "runId": "sample-run",
+      "seq": 231,
+      "ts": 16416
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "2026 ",
+      "runId": "sample-run",
+      "seq": 232,
+      "ts": 16455
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "that ",
+      "runId": "sample-run",
+      "seq": 233,
+      "ts": 16495
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "pull ",
+      "runId": "sample-run",
+      "seq": 234,
+      "ts": 16534
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "in ",
+      "runId": "sample-run",
+      "seq": 235,
+      "ts": 16574
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "opposite ",
+      "runId": "sample-run",
+      "seq": 236,
+      "ts": 16613
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "directions.\n\n",
+      "runId": "sample-run",
+      "seq": 237,
+      "ts": 16653
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "**Transparency ",
+      "runId": "sample-run",
+      "seq": 238,
+      "ts": 16692
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "rules ",
+      "runId": "sample-run",
+      "seq": 239,
+      "ts": 16732
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "went ",
+      "runId": "sample-run",
+      "seq": 240,
+      "ts": 16771
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "live.** ",
+      "runId": "sample-run",
+      "seq": 241,
+      "ts": 16811
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "From ",
+      "runId": "sample-run",
+      "seq": 242,
+      "ts": 16850
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "2 ",
+      "runId": "sample-run",
+      "seq": 243,
+      "ts": 16889
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "August ",
+      "runId": "sample-run",
+      "seq": 244,
+      "ts": 16929
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "2026 ",
+      "runId": "sample-run",
+      "seq": 245,
+      "ts": 16968
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "the ",
+      "runId": "sample-run",
+      "seq": 246,
+      "ts": 17008
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "Commission's ",
+      "runId": "sample-run",
+      "seq": 247,
+      "ts": 17047
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "AI ",
+      "runId": "sample-run",
+      "seq": 248,
+      "ts": 17087
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "Office ",
+      "runId": "sample-run",
+      "seq": 249,
+      "ts": 17126
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "began ",
+      "runId": "sample-run",
+      "seq": 250,
+      "ts": 17166
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "enforcing ",
+      "runId": "sample-run",
+      "seq": 251,
+      "ts": 17205
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "the ",
+      "runId": "sample-run",
+      "seq": 252,
+      "ts": 17245
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "AI ",
+      "runId": "sample-run",
+      "seq": 253,
+      "ts": 17284
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "Act's ",
+      "runId": "sample-run",
+      "seq": 254,
+      "ts": 17324
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "disclosure ",
+      "runId": "sample-run",
+      "seq": 255,
+      "ts": 17363
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "requirements ",
+      "runId": "sample-run",
+      "seq": 256,
+      "ts": 17403
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "[1]. ",
+      "runId": "sample-run",
+      "seq": 257,
+      "ts": 17442
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "Chatbots, ",
+      "runId": "sample-run",
+      "seq": 258,
+      "ts": 17482
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "voice ",
+      "runId": "sample-run",
+      "seq": 259,
+      "ts": 17521
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "assistants ",
+      "runId": "sample-run",
+      "seq": 260,
+      "ts": 17561
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "and ",
+      "runId": "sample-run",
+      "seq": 261,
+      "ts": 17600
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "AI ",
+      "runId": "sample-run",
+      "seq": 262,
+      "ts": 17639
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "agents ",
+      "runId": "sample-run",
+      "seq": 263,
+      "ts": 17679
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "must ",
+      "runId": "sample-run",
+      "seq": 264,
+      "ts": 17718
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "now ",
+      "runId": "sample-run",
+      "seq": 265,
+      "ts": 17758
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "tell ",
+      "runId": "sample-run",
+      "seq": 266,
+      "ts": 17797
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "users ",
+      "runId": "sample-run",
+      "seq": 267,
+      "ts": 17837
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "they ",
+      "runId": "sample-run",
+      "seq": 268,
+      "ts": 17876
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "are ",
+      "runId": "sample-run",
+      "seq": 269,
+      "ts": 17916
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "AI ",
+      "runId": "sample-run",
+      "seq": 270,
+      "ts": 17955
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "unless ",
+      "runId": "sample-run",
+      "seq": 271,
+      "ts": 17995
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "that ",
+      "runId": "sample-run",
+      "seq": 272,
+      "ts": 18034
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "is ",
+      "runId": "sample-run",
+      "seq": 273,
+      "ts": 18074
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "already ",
+      "runId": "sample-run",
+      "seq": 274,
+      "ts": 18113
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "obvious ",
+      "runId": "sample-run",
+      "seq": 275,
+      "ts": 18153
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "[1].\n\n",
+      "runId": "sample-run",
+      "seq": 276,
+      "ts": 18192
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "**The ",
+      "runId": "sample-run",
+      "seq": 277,
+      "ts": 18232
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "heaviest ",
+      "runId": "sample-run",
+      "seq": 278,
+      "ts": 18271
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "rules ",
+      "runId": "sample-run",
+      "seq": 279,
+      "ts": 18311
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "were ",
+      "runId": "sample-run",
+      "seq": 280,
+      "ts": 18350
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "pushed ",
+      "runId": "sample-run",
+      "seq": 281,
+      "ts": 18389
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "back.** ",
+      "runId": "sample-run",
+      "seq": 282,
+      "ts": 18429
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "The ",
+      "runId": "sample-run",
+      "seq": 283,
+      "ts": 18468
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "Digital ",
+      "runId": "sample-run",
+      "seq": 284,
+      "ts": 18508
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "Omnibus ",
+      "runId": "sample-run",
+      "seq": 285,
+      "ts": 18547
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "on ",
+      "runId": "sample-run",
+      "seq": 286,
+      "ts": 18587
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "AI ",
+      "runId": "sample-run",
+      "seq": 287,
+      "ts": 18626
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "deferred ",
+      "runId": "sample-run",
+      "seq": 288,
+      "ts": 18666
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "high-risk ",
+      "runId": "sample-run",
+      "seq": 289,
+      "ts": 18705
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "obligations ",
+      "runId": "sample-run",
+      "seq": 290,
+      "ts": 18745
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "to ",
+      "runId": "sample-run",
+      "seq": 291,
+      "ts": 18784
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "December ",
+      "runId": "sample-run",
+      "seq": 292,
+      "ts": 18824
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "2027 ",
+      "runId": "sample-run",
+      "seq": 293,
+      "ts": 18863
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "for ",
+      "runId": "sample-run",
+      "seq": 294,
+      "ts": 18903
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "standalone ",
+      "runId": "sample-run",
+      "seq": 295,
+      "ts": 18942
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "systems ",
+      "runId": "sample-run",
+      "seq": 296,
+      "ts": 18982
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "and ",
+      "runId": "sample-run",
+      "seq": 297,
+      "ts": 19021
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "August ",
+      "runId": "sample-run",
+      "seq": 298,
+      "ts": 19061
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "2028 ",
+      "runId": "sample-run",
+      "seq": 299,
+      "ts": 19100
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "for ",
+      "runId": "sample-run",
+      "seq": 300,
+      "ts": 19139
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "AI ",
+      "runId": "sample-run",
+      "seq": 301,
+      "ts": 19179
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "inside ",
+      "runId": "sample-run",
+      "seq": 302,
+      "ts": 19218
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "regulated ",
+      "runId": "sample-run",
+      "seq": 303,
+      "ts": 19258
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "products ",
+      "runId": "sample-run",
+      "seq": 304,
+      "ts": 19297
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "[2]. ",
+      "runId": "sample-run",
+      "seq": 305,
+      "ts": 19337
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "Article ",
+      "runId": "sample-run",
+      "seq": 306,
+      "ts": 19376
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "50's ",
+      "runId": "sample-run",
+      "seq": 307,
+      "ts": 19416
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "transparency ",
+      "runId": "sample-run",
+      "seq": 308,
+      "ts": 19455
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "duties ",
+      "runId": "sample-run",
+      "seq": 309,
+      "ts": 19495
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "were ",
+      "runId": "sample-run",
+      "seq": 310,
+      "ts": 19534
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "deliberately ",
+      "runId": "sample-run",
+      "seq": 311,
+      "ts": 19574
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "left ",
+      "runId": "sample-run",
+      "seq": 312,
+      "ts": 19613
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "in ",
+      "runId": "sample-run",
+      "seq": 313,
+      "ts": 19653
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "place ",
+      "runId": "sample-run",
+      "seq": 314,
+      "ts": 19692
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "[2].\n\n",
+      "runId": "sample-run",
+      "seq": 315,
+      "ts": 19732
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "**The ",
+      "runId": "sample-run",
+      "seq": 316,
+      "ts": 19771
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "politics.** ",
+      "runId": "sample-run",
+      "seq": 317,
+      "ts": 19811
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "Parliament ",
+      "runId": "sample-run",
+      "seq": 318,
+      "ts": 19850
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "endorsed ",
+      "runId": "sample-run",
+      "seq": 319,
+      "ts": 19889
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "the ",
+      "runId": "sample-run",
+      "seq": 320,
+      "ts": 19929
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "package ",
+      "runId": "sample-run",
+      "seq": 321,
+      "ts": 19968
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "423-57 ",
+      "runId": "sample-run",
+      "seq": 322,
+      "ts": 20008
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "[3]. ",
+      "runId": "sample-run",
+      "seq": 323,
+      "ts": 20047
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "One ",
+      "runId": "sample-run",
+      "seq": 324,
+      "ts": 20087
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "industry ",
+      "runId": "sample-run",
+      "seq": 325,
+      "ts": 20126
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "survey ",
+      "runId": "sample-run",
+      "seq": 326,
+      "ts": 20166
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "found ",
+      "runId": "sample-run",
+      "seq": 327,
+      "ts": 20205
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "68% ",
+      "runId": "sample-run",
+      "seq": 328,
+      "ts": 20245
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "of ",
+      "runId": "sample-run",
+      "seq": 329,
+      "ts": 20284
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "providers ",
+      "runId": "sample-run",
+      "seq": 330,
+      "ts": 20324
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "were ",
+      "runId": "sample-run",
+      "seq": 331,
+      "ts": 20363
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "unprepared ",
+      "runId": "sample-run",
+      "seq": 332,
+      "ts": 20403
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "for ",
+      "runId": "sample-run",
+      "seq": 333,
+      "ts": 20442
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "the ",
+      "runId": "sample-run",
+      "seq": 334,
+      "ts": 20482
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "original ",
+      "runId": "sample-run",
+      "seq": 335,
+      "ts": 20521
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "deadline ",
+      "runId": "sample-run",
+      "seq": 336,
+      "ts": 20561
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "(https://ai-readiness-institute.example/survey-2026), ",
+      "runId": "sample-run",
+      "seq": 337,
+      "ts": 20600
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "which ",
+      "runId": "sample-run",
+      "seq": 338,
+      "ts": 20639
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "is ",
+      "runId": "sample-run",
+      "seq": 339,
+      "ts": 20679
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "often ",
+      "runId": "sample-run",
+      "seq": 340,
+      "ts": 20718
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "cited ",
+      "runId": "sample-run",
+      "seq": 341,
+      "ts": 20758
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "as ",
+      "runId": "sample-run",
+      "seq": 342,
+      "ts": 20797
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "the ",
+      "runId": "sample-run",
+      "seq": 343,
+      "ts": 20837
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "practical ",
+      "runId": "sample-run",
+      "seq": 344,
+      "ts": 20876
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "reason ",
+      "runId": "sample-run",
+      "seq": 345,
+      "ts": 20916
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "for ",
+      "runId": "sample-run",
+      "seq": 346,
+      "ts": 20955
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "the ",
+      "runId": "sample-run",
+      "seq": 347,
+      "ts": 20995
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "delay.\n\n",
+      "runId": "sample-run",
+      "seq": 348,
+      "ts": 21034
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "## ",
+      "runId": "sample-run",
+      "seq": 349,
+      "ts": 21074
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "What ",
+      "runId": "sample-run",
+      "seq": 350,
+      "ts": 21113
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "this ",
+      "runId": "sample-run",
+      "seq": 351,
+      "ts": 21153
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "means\n\n",
+      "runId": "sample-run",
+      "seq": 352,
+      "ts": 21192
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "The ",
+      "runId": "sample-run",
+      "seq": 353,
+      "ts": 21232
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "framework ",
+      "runId": "sample-run",
+      "seq": 354,
+      "ts": 21271
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "was ",
+      "runId": "sample-run",
+      "seq": 355,
+      "ts": 21311
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "recalibrated, ",
+      "runId": "sample-run",
+      "seq": 356,
+      "ts": 21350
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "not ",
+      "runId": "sample-run",
+      "seq": 357,
+      "ts": 21389
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "abandoned: ",
+      "runId": "sample-run",
+      "seq": 358,
+      "ts": 21429
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "disclosure ",
+      "runId": "sample-run",
+      "seq": 359,
+      "ts": 21468
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "obligations ",
+      "runId": "sample-run",
+      "seq": 360,
+      "ts": 21508
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "are ",
+      "runId": "sample-run",
+      "seq": 361,
+      "ts": 21547
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "live ",
+      "runId": "sample-run",
+      "seq": 362,
+      "ts": 21587
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "and ",
+      "runId": "sample-run",
+      "seq": 363,
+      "ts": 21626
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "enforced, ",
+      "runId": "sample-run",
+      "seq": 364,
+      "ts": 21666
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "while ",
+      "runId": "sample-run",
+      "seq": 365,
+      "ts": 21705
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "the ",
+      "runId": "sample-run",
+      "seq": 366,
+      "ts": 21745
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "compliance-heavy ",
+      "runId": "sample-run",
+      "seq": 367,
+      "ts": 21784
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "high-risk ",
+      "runId": "sample-run",
+      "seq": 368,
+      "ts": 21824
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "regime ",
+      "runId": "sample-run",
+      "seq": 369,
+      "ts": 21863
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "slipped ",
+      "runId": "sample-run",
+      "seq": 370,
+      "ts": 21903
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "by ",
+      "runId": "sample-run",
+      "seq": 371,
+      "ts": 21942
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "roughly ",
+      "runId": "sample-run",
+      "seq": 372,
+      "ts": 21982
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "sixteen ",
+      "runId": "sample-run",
+      "seq": 373,
+      "ts": 22021
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "delta": "months.",
+      "runId": "sample-run",
+      "seq": 374,
+      "ts": 22061
+    },
+    {
+      "type": "agent_progress",
+      "agentId": "agent-writer",
+      "note": "Removed 1 unverifiable citation",
+      "runId": "sample-run",
+      "seq": 375,
+      "ts": 22300
+    },
+    {
+      "type": "report_ready",
+      "markdown": "## What changed\n\nThe EU did two things in 2026 that pull in opposite directions.\n\n**Transparency rules went live.** From 2 August 2026 the Commission's AI Office began enforcing the AI Act's disclosure requirements [1]. Chatbots, voice assistants and AI agents must now tell users they are AI unless that is already obvious [1].\n\n**The heaviest rules were pushed back.** The Digital Omnibus on AI deferred high-risk obligations to December 2027 for standalone systems and August 2028 for AI inside regulated products [2]. Article 50's transparency duties were deliberately left in place [2].\n\n**The politics.** Parliament endorsed the package 423-57 [3]. One industry survey found 68% of providers were unprepared for the original deadline, which is often cited as the practical reason for the delay.\n\n## What this means\n\nThe framework was recalibrated, not abandoned: disclosure obligations are live and enforced, while the compliance-heavy high-risk regime slipped by roughly sixteen months.",
+      "sources": [
+        {
+          "index": 1,
+          "url": "https://digital-strategy.ec.europa.eu/en/news/commission-starts-enforcing-ai-act-rules-and-new-transparency-requirements-2-august",
+          "title": "Commission starts enforcing AI Act rules and new transparency requirements on 2 August"
+        },
+        {
+          "index": 2,
+          "url": "https://www.gibsondunn.com/eu-ai-act-omnibus-agreement-postponed-high-risk-deadlines-and-other-key-changes/",
+          "title": "EU AI Act Omnibus Agreement — Postponed High-Risk Deadlines and Other Key Changes"
+        },
+        {
+          "index": 3,
+          "url": "https://www.europarl.europa.eu/news/en/press-room/2026-digital-omnibus-vote",
+          "title": "Parliament endorses the Digital Omnibus on AI"
+        }
+      ],
+      "rejected": [
+        {
+          "text": "https://ai-readiness-institute.example/survey-2026",
+          "reason": "unknown url"
+        }
+      ],
+      "runId": "sample-run",
+      "seq": 376,
+      "ts": 22400
+    },
+    {
+      "type": "agent_finished",
+      "agentId": "agent-writer",
+      "summary": "Cited 3 of 3 sources.",
+      "runId": "sample-run",
+      "seq": 377,
+      "ts": 22450
+    },
+    {
+      "type": "run_finished",
+      "runId": "sample-run",
+      "seq": 378,
+      "ts": 22500
+    }
+  ]
+}

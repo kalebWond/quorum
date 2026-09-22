@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { getAnthropic, MODEL } from "./anthropic";
+import type { RunBudget } from "./budget";
 import { mapWithLimit } from "./concurrency";
 import type { EmitFn } from "./events";
 import { fetchPage } from "./fetch-page";
@@ -158,6 +159,7 @@ export async function runResearcher(
   agentId: string,
   emit: EmitFn,
   signal: AbortSignal,
+  budget: RunBudget,
 ): Promise<ResearchResult> {
   const messages: Anthropic.MessageParam[] = [
     { role: "user", content: question },
@@ -178,6 +180,19 @@ export async function runResearcher(
   emit({ type: "agent_progress", agentId, note: "Thinking…" });
 
   for (let turn = 0; turn < MAX_TURNS; turn++) {
+    // Claimed before the request. A researcher that cannot afford another
+    // turn stops with what it has rather than failing the run.
+    try {
+      budget.beginCall();
+    } catch {
+      emit({
+        type: "agent_progress",
+        agentId,
+        note: "Stopped early — the run reached a limit",
+      });
+      break;
+    }
+
     const stream = getAnthropic().messages.stream({
       model: MODEL,
       max_tokens: 16000,
@@ -276,6 +291,12 @@ export async function runResearcher(
     usage.output += message.usage.output_tokens;
     usage.cacheRead += message.usage.cache_read_input_tokens ?? 0;
     usage.cacheWrite += message.usage.cache_creation_input_tokens ?? 0;
+    budget.record({
+      input: message.usage.input_tokens,
+      output: message.usage.output_tokens,
+      cacheRead: message.usage.cache_read_input_tokens ?? 0,
+      cacheWrite: message.usage.cache_creation_input_tokens ?? 0,
+    });
 
     if (message.stop_reason === "refusal") {
       throw new ResearchError("The model declined to research this question.");
@@ -421,6 +442,7 @@ export async function runResearchers(
   subQuestions: string[],
   emit: EmitFn,
   signal: AbortSignal,
+  budget: RunBudget,
   /**
    * Test seam. `runResearcher` lives in this module, so a test cannot stub it
    * through the import graph; and a real 45s deadline cannot be waited out in
@@ -444,12 +466,16 @@ export async function runResearchers(
         label: subQuestion,
       });
 
-      // Fires on either the client leaving or this researcher overrunning.
-      const deadline = AbortSignal.timeout(timeoutMs);
+      // Fires on the client leaving, this researcher overrunning, or the
+      // run's own clock expiring — whichever comes first. Capping by the
+      // run budget is what keeps the wave inside Vercel's request ceiling.
+      const deadline = AbortSignal.timeout(
+        Math.max(1, Math.min(timeoutMs, budget.timeLeftMs())),
+      );
       const combined = AbortSignal.any([signal, deadline]);
 
       try {
-        const result = await run(subQuestion, agentId, emit, combined);
+        const result = await run(subQuestion, agentId, emit, combined, budget);
         emit({
           type: "agent_finished",
           agentId,

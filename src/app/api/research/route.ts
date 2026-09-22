@@ -6,8 +6,10 @@ import {
   type RunEvent,
   type RunEventBody,
 } from "@/lib/events";
+import { BudgetError, RunBudget } from "@/lib/budget";
 import { PlanError, runPlanner } from "@/lib/plan";
 import { ResearchError, runResearchers } from "@/lib/research";
+import { describeReset, rateLimiter, visitorKey } from "@/lib/rate-limit";
 import { runWriter, WriteError } from "@/lib/write";
 
 // The Anthropic SDK streams over Node APIs, and this route is long-lived.
@@ -29,7 +31,8 @@ function toClientError(error: unknown): string {
   if (
     error instanceof ResearchError ||
     error instanceof PlanError ||
-    error instanceof WriteError
+    error instanceof WriteError ||
+    error instanceof BudgetError
   ) {
     return error.message;
   }
@@ -38,6 +41,16 @@ function toClientError(error: unknown): string {
   }
   if (error instanceof Anthropic.RateLimitError) {
     return "Rate limited — please try again in a moment.";
+  }
+  // A 400 from the provider is a problem with this deployment, not with the
+  // visitor's question — an exhausted credit balance lands here. Saying "the
+  // model request failed (400)" tells them nothing they can act on, so point
+  // them at the thing that does work.
+  if (error instanceof Anthropic.BadRequestError) {
+    return (
+      "Quorum cannot run new research right now. " +
+      'Use "Watch a sample run" to see a finished run in full.'
+    );
   }
   if (error instanceof Anthropic.APIError) {
     return `The model request failed (${error.status}).`;
@@ -54,6 +67,22 @@ function toClientError(error: unknown): string {
  * leaving the UI on a spinner.
  */
 export async function POST(request: Request) {
+  // Checked before anything else: a refused visitor must cost nothing.
+  const limit = rateLimiter.check(visitorKey(request.headers));
+  if (!limit.allowed) {
+    return Response.json(
+      {
+        error:
+          `You have used your runs for now — the limit resets ${describeReset(limit.resetInMs)}. ` +
+          `In the meantime, "Watch a sample run" replays a finished run in full.`,
+      },
+      {
+        status: 429,
+        headers: { "Retry-After": String(Math.ceil(limit.resetInMs / 1000)) },
+      },
+    );
+  }
+
   let question: string;
   try {
     const parsed = requestSchema.safeParse(await request.json());
@@ -69,6 +98,9 @@ export async function POST(request: Request) {
   }
 
   const runId = crypto.randomUUID();
+  // One budget shared by every agent in the run — the ceiling that does not
+  // leak across serverless instances the way the rate limiter does.
+  const budget = new RunBudget();
   const plannerId = crypto.randomUUID();
   const writerId = crypto.randomUUID();
   const emit = createRunEmitter(runId);
@@ -105,6 +137,7 @@ export async function POST(request: Request) {
           plannerId,
           relay,
           request.signal,
+          budget,
         );
         soleAgentId = null;
         send(emit({ type: "plan_ready", subQuestions: plan.subQuestions }));
@@ -122,6 +155,7 @@ export async function POST(request: Request) {
           plan.subQuestions,
           relay,
           request.signal,
+          budget,
         );
 
         if (!request.signal.aborted) {
@@ -160,6 +194,7 @@ export async function POST(request: Request) {
             writerId,
             relay,
             request.signal,
+            budget,
           );
 
           if (!request.signal.aborted) {
@@ -201,6 +236,12 @@ export async function POST(request: Request) {
         }
         send(emit({ type: "run_failed", error: message }));
       } finally {
+        const spent = budget.snapshot();
+        console.log(
+          `[run ${runId}] $${spent.usd.toFixed(4)} of $${spent.limits.usd.toFixed(2)}, ` +
+            `${spent.calls}/${spent.limits.calls} calls, ` +
+            `${(spent.elapsedMs / 1000).toFixed(1)}s`,
+        );
         closed = true;
         controller.close();
       }
