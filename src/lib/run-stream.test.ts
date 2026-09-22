@@ -151,3 +151,118 @@ describe("reduceRunEvent", () => {
     expect(fresh.status).toBe("running");
   });
 });
+
+describe("the source ledger", () => {
+  const started = (e: ReturnType<typeof emit>) => [
+    e({ type: "run_started", question: "q" }),
+    e({
+      type: "agent_started",
+      agentId: AGENT_A,
+      role: "researcher",
+      label: "Researcher",
+    }),
+  ];
+
+  it("replaces a fetching row with its result instead of appending", () => {
+    const e = emit();
+    const state = run(
+      ...started(e),
+      e({
+        type: "agent_source",
+        agentId: AGENT_A,
+        url: "https://example.com/a",
+        status: "fetching",
+      }),
+      e({
+        type: "agent_source",
+        agentId: AGENT_A,
+        url: "https://example.com/a",
+        status: "ok",
+        title: "A",
+        ms: 1200,
+        bytes: 8192,
+      }),
+    );
+
+    expect(state.agents[0].sources).toEqual([
+      {
+        url: "https://example.com/a",
+        status: "ok",
+        title: "A",
+        ms: 1200,
+        bytes: 8192,
+        error: undefined,
+      },
+    ]);
+  });
+
+  it("keeps successful and failed sources side by side, in first-seen order", () => {
+    const e = emit();
+    const state = run(
+      ...started(e),
+      e({
+        type: "agent_source",
+        agentId: AGENT_A,
+        url: "https://a.example/1",
+        status: "fetching",
+      }),
+      e({
+        type: "agent_source",
+        agentId: AGENT_A,
+        url: "https://b.example/2",
+        status: "fetching",
+      }),
+      // Resolves out of order — the list must not reorder itself.
+      e({
+        type: "agent_source",
+        agentId: AGENT_A,
+        url: "https://b.example/2",
+        status: "failed",
+        error: "timed out after 10s",
+      }),
+      e({
+        type: "agent_source",
+        agentId: AGENT_A,
+        url: "https://a.example/1",
+        status: "ok",
+        ms: 900,
+      }),
+    );
+
+    const { sources } = state.agents[0];
+    expect(sources.map((s) => s.url)).toEqual([
+      "https://a.example/1",
+      "https://b.example/2",
+    ]);
+    expect(sources.map((s) => s.status)).toEqual(["ok", "failed"]);
+    expect(sources[1].error).toBe("timed out after 10s");
+  });
+
+  it("does not leak sources between agents", () => {
+    const e = emit();
+    const state = run(
+      ...started(e),
+      e({
+        type: "agent_started",
+        agentId: AGENT_B,
+        role: "researcher",
+        label: "Researcher 2",
+      }),
+      e({
+        type: "agent_source",
+        agentId: AGENT_A,
+        url: "https://example.com/a",
+        status: "ok",
+      }),
+    );
+
+    expect(state.agents[0].sources).toHaveLength(1);
+    expect(state.agents[1].sources).toEqual([]);
+  });
+
+  it("starts every agent with an empty ledger", () => {
+    const e = emit();
+    const state = run(...started(e));
+    expect(state.agents[0].sources).toEqual([]);
+  });
+});

@@ -9,6 +9,18 @@ import type { AgentRole, RunEvent } from "./events";
 
 export type AgentStatus = "working" | "done" | "failed";
 
+export type SourceStatus = "fetching" | "ok" | "failed";
+
+/** One row of the fetched-source ledger. Feature 5 verifies citations here. */
+export type SourceView = {
+  url: string;
+  status: SourceStatus;
+  title?: string;
+  ms?: number;
+  bytes?: number;
+  error?: string;
+};
+
 export type AgentView = {
   agentId: string;
   role: AgentRole;
@@ -19,6 +31,8 @@ export type AgentView = {
   /** Summarized reasoning, accumulated from `thinking`. */
   thinking: string;
   notes: string[];
+  /** Every URL the agent tried, in the order it first tried them. */
+  sources: SourceView[];
   summary?: string;
   error?: string;
 };
@@ -84,6 +98,7 @@ export function reduceRunEvent(state: RunState, event: RunEvent): RunState {
             text: "",
             thinking: "",
             notes: [],
+            sources: [],
           },
         ],
       };
@@ -97,6 +112,33 @@ export function reduceRunEvent(state: RunState, event: RunEvent): RunState {
           thinking: agent.thinking + (event.thinking ?? ""),
           notes: event.note ? [...agent.notes, event.note] : agent.notes,
         })),
+      };
+
+    case "agent_source":
+      // Upsert by url: the `fetching` row is replaced in place by its
+      // `ok`/`failed` result, so a source never appears twice in the list.
+      return {
+        ...next,
+        agents: patchAgent(state, event.agentId, (agent) => {
+          const source: SourceView = {
+            url: event.url,
+            status: event.status,
+            title: event.title,
+            ms: event.ms,
+            bytes: event.bytes,
+            error: event.error,
+          };
+          const index = agent.sources.findIndex((s) => s.url === event.url);
+          return {
+            ...agent,
+            sources:
+              index === -1
+                ? [...agent.sources, source]
+                : agent.sources.map((s, i) =>
+                    i === index ? { ...s, ...source } : s,
+                  ),
+          };
+        }),
       };
 
     case "agent_finished":

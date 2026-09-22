@@ -25,6 +25,21 @@ function sample(): RunEvent[] {
     emit({ type: "agent_progress", agentId: AGENT_ID, delta: "Because " }),
     emit({ type: "agent_progress", agentId: AGENT_ID, thinking: "hmm" }),
     emit({ type: "agent_progress", agentId: AGENT_ID, note: "Thinking…" }),
+    emit({
+      type: "agent_source",
+      agentId: AGENT_ID,
+      url: "https://example.com/a",
+      status: "fetching",
+    }),
+    emit({
+      type: "agent_source",
+      agentId: AGENT_ID,
+      url: "https://example.com/a",
+      status: "ok",
+      title: "A",
+      ms: 1200,
+      bytes: 8192,
+    }),
     emit({ type: "agent_finished", agentId: AGENT_ID, summary: "done" }),
     emit({ type: "agent_failed", agentId: AGENT_ID, error: "boom" }),
     emit({ type: "run_finished" }),
@@ -65,9 +80,9 @@ describe("runEventSchema", () => {
 describe("createRunEmitter", () => {
   it("assigns a gap-free ascending seq", () => {
     const events = sample();
-    expect(events.map((event) => event.seq)).toEqual([
-      0, 1, 2, 3, 4, 5, 6, 7, 8,
-    ]);
+    expect(events.map((event) => event.seq)).toEqual(
+      events.map((_, index) => index),
+    );
   });
 
   it("stamps the same runId on every event", () => {

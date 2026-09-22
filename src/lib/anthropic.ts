@@ -2,7 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { getEnv } from "./env";
 
 /** Every agent in the app uses this model unless a feature says otherwise. */
-export const MODEL = "claude-opus-5";
+export const MODEL = "claude-sonnet-5";
 
 let client: Anthropic | null = null;
 

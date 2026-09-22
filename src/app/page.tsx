@@ -78,6 +78,40 @@ export default function Home() {
             <p className="text-sm text-zinc-500">{agent.notes.at(-1)}</p>
           )}
 
+          {agent.sources.length > 0 && (
+            <ul className="flex flex-col gap-1 text-sm">
+              {agent.sources.map((source) => (
+                <li key={source.url} className="flex items-baseline gap-2">
+                  <span
+                    aria-hidden
+                    className="w-3 shrink-0 text-center text-zinc-400"
+                  >
+                    {source.status === "ok"
+                      ? "✓"
+                      : source.status === "failed"
+                        ? "✗"
+                        : "⟳"}
+                  </span>
+                  <a
+                    href={source.url}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="truncate underline decoration-zinc-300 underline-offset-2"
+                  >
+                    {source.title ?? source.url}
+                  </a>
+                  <span className="shrink-0 text-xs text-zinc-500">
+                    {source.status === "failed"
+                      ? source.error
+                      : source.ms !== undefined
+                        ? `${(source.ms / 1000).toFixed(1)}s`
+                        : null}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+
           {agent.text && (
             <p className="leading-relaxed whitespace-pre-wrap">{agent.text}</p>
           )}

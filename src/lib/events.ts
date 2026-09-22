@@ -50,6 +50,23 @@ export const runEventSchema = z.discriminatedUnion("type", [
   }),
   z.object({
     ...agentEnvelope,
+    /**
+     * One source the agent tried to read. Emitted twice per URL — once as
+     * `fetching`, once as `ok` or `failed`.
+     *
+     * Structured rather than folded into a `note` because Feature 5 verifies
+     * every citation against this ledger, and Feature 6 renders it as cards.
+     */
+    type: z.literal("agent_source"),
+    url: z.string().url(),
+    status: z.enum(["fetching", "ok", "failed"]),
+    title: z.string().optional(),
+    ms: z.number().int().nonnegative().optional(),
+    bytes: z.number().int().nonnegative().optional(),
+    error: z.string().optional(),
+  }),
+  z.object({
+    ...agentEnvelope,
     type: z.literal("agent_finished"),
     summary: z.string().optional(),
   }),

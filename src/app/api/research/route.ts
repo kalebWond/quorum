@@ -1,7 +1,12 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
-import { getAnthropic, MODEL } from "@/lib/anthropic";
-import { createRunEmitter, encodeSSE, type RunEvent } from "@/lib/events";
+import {
+  createRunEmitter,
+  encodeSSE,
+  type RunEvent,
+  type RunEventBody,
+} from "@/lib/events";
+import { ResearchError, runResearcher } from "@/lib/research";
 
 // The Anthropic SDK streams over Node APIs, and this route is long-lived.
 export const runtime = "nodejs";
@@ -11,13 +16,6 @@ const requestSchema = z.object({
   question: z.string().trim().min(1, "Ask a question first.").max(2000),
 });
 
-const SYSTEM_PROMPT = [
-  "You are the research agent for Quorum.",
-  "Answer the user's question directly and concisely.",
-  "State plainly when something is uncertain or when you would need to look it up —",
-  "do not invent specifics, and do not cite sources you have not actually read.",
-].join(" ");
-
 /**
  * Turns an exception into something safe to show a visitor.
  *
@@ -25,6 +23,10 @@ const SYSTEM_PROMPT = [
  * belongs in the server log, not in a public demo's UI.
  */
 function toClientError(error: unknown): string {
+  // Raised deliberately by the researcher, and already phrased for a visitor.
+  if (error instanceof ResearchError) {
+    return error.message;
+  }
   if (error instanceof Anthropic.AuthenticationError) {
     return "The server's API key was rejected.";
   }
@@ -38,11 +40,11 @@ function toClientError(error: unknown): string {
 }
 
 /**
- * Feature 1 baseline: one agent, streamed over SSE.
+ * Feature 2: one researcher with web access, streamed over SSE.
  *
- * The agent itself is a placeholder that later features replace. What is meant
- * to last is the transport — the event schema, the `id:` sequence, and the
- * guarantee that a failure always reaches the client as `run_failed`.
+ * The agent lives in `lib/research.ts`; this route owns only the transport —
+ * the event schema, the `id:` sequence, and the guarantee that a failure always
+ * reaches the client as `run_failed` rather than a hung spinner.
  */
 export async function POST(request: Request) {
   let question: string;
@@ -72,6 +74,8 @@ export async function POST(request: Request) {
         controller.enqueue(encoder.encode(encodeSSE(event)));
       };
 
+      const relay = (body: RunEventBody) => send(emit(body));
+
       try {
         send(emit({ type: "run_started", question }));
         send(
@@ -82,61 +86,31 @@ export async function POST(request: Request) {
             label: "Researcher",
           }),
         );
-        // Thinking is summarized rather than omitted, so the UI has something
-        // to show during the pause before the first answer token.
-        send(emit({ type: "agent_progress", agentId, note: "Thinking…" }));
 
-        const messageStream = getAnthropic().messages.stream({
-          model: MODEL,
-          max_tokens: 16000,
-          thinking: { type: "adaptive", display: "summarized" },
-          system: SYSTEM_PROMPT,
-          messages: [{ role: "user", content: question }],
-        });
-
-        for await (const event of messageStream) {
-          if (request.signal.aborted) {
-            messageStream.abort();
-            break;
-          }
-          if (event.type !== "content_block_delta") continue;
-
-          if (event.delta.type === "text_delta") {
-            send(
-              emit({
-                type: "agent_progress",
-                agentId,
-                delta: event.delta.text,
-              }),
-            );
-          } else if (event.delta.type === "thinking_delta") {
-            send(
-              emit({
-                type: "agent_progress",
-                agentId,
-                thinking: event.delta.thinking,
-              }),
-            );
-          }
-        }
+        const result = await runResearcher(
+          question,
+          agentId,
+          relay,
+          request.signal,
+        );
 
         if (!request.signal.aborted) {
-          const message = await messageStream.finalMessage();
-          if (message.stop_reason === "refusal") {
-            send(
-              emit({
-                type: "agent_failed",
-                agentId,
-                error: "The model declined to answer this question.",
-              }),
-            );
-            send(emit({ type: "run_failed", error: "The run was declined." }));
-          } else {
-            send(emit({ type: "agent_finished", agentId }));
-            send(emit({ type: "run_finished" }));
-          }
+          send(
+            emit({
+              type: "agent_finished",
+              agentId,
+              summary: `Read ${result.sources.length} source${
+                result.sources.length === 1 ? "" : "s"
+              }.`,
+            }),
+          );
+          send(emit({ type: "run_finished" }));
         }
       } catch (error) {
+        // The client hung up. Nothing is listening, so emit nothing and let
+        // `finally` close the stream.
+        if (request.signal.aborted) return;
+
         // A stream that dies silently leaves the UI on a spinner forever, so
         // every failure path has to produce a terminal event first.
         console.error(`[run ${runId}] failed`, error);
