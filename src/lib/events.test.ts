@@ -16,6 +16,7 @@ function sample(): RunEvent[] {
   const emit = createRunEmitter(RUN_ID);
   return [
     emit({ type: "run_started", question: "Why is the sky blue?" }),
+    emit({ type: "plan_ready", subQuestions: ["one?", "two?"] }),
     emit({
       type: "agent_started",
       agentId: AGENT_ID,

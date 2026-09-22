@@ -1,7 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { getAnthropic, MODEL } from "./anthropic";
-import type { RunEventBody } from "./events";
+import type { EmitFn } from "./events";
 import { fetchPage } from "./fetch-page";
 
 /**
@@ -17,9 +17,6 @@ import { fetchPage } from "./fetch-page";
  * auto-resume it, and a server tool makes it likely), and Feature 4 needs
  * timeouts and partial failure to be ours to control.
  */
-
-/** Emits one event upstream. The caller stamps the envelope and writes the frame. */
-export type EmitFn = (body: RunEventBody) => void;
 
 /**
  * A failure that is safe and useful to show a visitor.
@@ -59,16 +56,22 @@ export type ResearchResult = {
 /**
  * Output contract for the agent.
  *
- * Feature 2's done-when is "findings with real, fetched source URLs", so an
- * empty answer or an answer with no successfully fetched source is a failure,
- * not a thin success. That is also exactly the "returned nothing useful" case
- * Feature 4 has to survive.
+ * Requires findings and nothing else. Requiring at least one fetched source
+ * was the original contract, and it was wrong: the answer is streamed to the
+ * user token by token, so by the time the source count can be checked they
+ * have already read it. Failing the run at that point retracts an answer that
+ * was in front of them — on a narrow factual question the model answers from
+ * search results alone, correctly, and the run died.
+ *
+ * Sources are reported rather than enforced. Feature 5 enforces the invariant
+ * that actually matters — every *citation* resolves to a fetched page — at the
+ * point where it can still be acted on.
  */
 const researchResultSchema = z.object({
   findings: z.string().trim().min(1, "the researcher produced no findings"),
-  sources: z
-    .array(z.object({ url: z.string().url(), title: z.string().optional() }))
-    .min(1, "the researcher could not read any sources"),
+  sources: z.array(
+    z.object({ url: z.string().url(), title: z.string().optional() }),
+  ),
 });
 
 /** Tool list. Deliberately not annotated — `Anthropic.Tool` is the custom-tool variant only. */
@@ -120,10 +123,17 @@ export async function runResearcher(
   agentId: string,
   emit: EmitFn,
   signal: AbortSignal,
+  subQuestions: string[] = [],
 ): Promise<ResearchResult> {
-  const messages: Anthropic.MessageParam[] = [
-    { role: "user", content: question },
-  ];
+  // Feature 3 uses the plan to steer one researcher. Feature 4 replaces this
+  // with one researcher per sub-question, running in parallel.
+  const brief = subQuestions.length
+    ? `${question}\n\nCover these sub-questions:\n${subQuestions
+        .map((sub, index) => `${index + 1}. ${sub}`)
+        .join("\n")}`
+    : question;
+
+  const messages: Anthropic.MessageParam[] = [{ role: "user", content: brief }];
   /** url -> source, insertion ordered. Only successful fetches land here. */
   const ledger = new Map<string, ResearchSource>();
   let findings = "";
@@ -309,6 +319,16 @@ export async function runResearcher(
     );
 
     messages.push({ role: "user", content: results });
+  }
+
+  if (ledger.size === 0) {
+    // Not a failure, but the user should know the answer rests on search
+    // results rather than on anything this agent actually read.
+    emit({
+      type: "agent_progress",
+      agentId,
+      note: "Answered from search results without reading a source",
+    });
   }
 
   const validated = researchResultSchema.safeParse({

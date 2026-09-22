@@ -197,3 +197,64 @@ IPv4 address through in IPv6 clothing.
 **Tradeoff:** DNS rebinding between the check and the request is still possible.
 Closing that needs the connection pinned to the resolved address, which is more
 machinery than a demo of this size warrants.
+
+---
+
+## 12. The plan is a run-level artifact, not the planner's output
+
+**Date:** 2026-09-22
+
+`plan_ready` carries the sub-questions on the run envelope rather than on the
+planner's agent envelope, and the reducer stores it as `RunState.plan`.
+
+The plan outlives the agent that produced it. Feature 4 maps one researcher to
+each sub-question, and Feature 11 lets the user edit the list before any
+research starts — both operate on the run, not on a finished planner card. A
+test covers the case that makes this concrete: a planner that fails _after_
+emitting its plan leaves the plan intact.
+
+---
+
+## 13. The planner streams, so it validates its own output
+
+**Date:** 2026-09-22
+
+`runPlanner` uses `messages.stream` with `output_config.format` rather than the
+simpler non-streaming `messages.parse`, then parses the accumulated text with
+the same Zod schema it sent to the API.
+
+The planner runs first in every run, so a silent pause there is the worst place
+in the app for one — the same reasoning as decision 6. Streaming lets its
+reasoning show while it works. The cost is that `parsed_output` is not handed
+to us, so the JSON is parsed at this end.
+
+That parse is not redundant. Structured outputs constrain the model's output,
+they do not guarantee a complete response: a body truncated at `max_tokens` is
+still cut-off JSON. `parsePlan` is pure and carries the retry path, so the
+"malformed output is handled gracefully" half of Feature 3 is covered by unit
+tests rather than by hoping.
+
+---
+
+## 14. A streamed answer cannot be retracted by a validator
+
+**Date:** 2026-09-22
+
+The researcher's output contract originally required at least one successfully
+fetched source; it now requires only non-empty findings.
+
+Feature 3's varied test questions exposed the flaw. Asked "What year was the
+Eiffel Tower completed?", the researcher searched, judged the results
+sufficient, and answered correctly without fetching a page. The contract then
+threw, and a correct answer the user had already watched stream in became a
+failed run.
+
+The general rule: a check that can only run after the output has been streamed
+cannot be allowed to fail the run, because there is nothing left to withhold.
+The source count is now reported — the agent emits a note, and the summary says
+"Answered without reading a source" — rather than enforced.
+
+**Tradeoff:** the app will sometimes answer from search results alone. The
+invariant that actually matters is not "a source was read" but "every citation
+resolves to a page that was read", and that is Feature 5's job, checked while
+the report is still being assembled and can still be changed.

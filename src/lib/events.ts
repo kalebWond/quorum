@@ -33,6 +33,18 @@ export const runEventSchema = z.discriminatedUnion("type", [
     question: z.string(),
   }),
   z.object({
+    ...envelope,
+    /**
+     * The planner's sub-questions.
+     *
+     * Run-level rather than agent-scoped: the plan outlives the planner. In
+     * Feature 4 it becomes one researcher per entry, and in Feature 11 the
+     * user edits it before any research starts.
+     */
+    type: z.literal("plan_ready"),
+    subQuestions: z.array(z.string()).min(1),
+  }),
+  z.object({
     ...agentEnvelope,
     type: z.literal("agent_started"),
     role: agentRoleSchema,
@@ -93,6 +105,14 @@ type DistributiveOmit<T, K extends PropertyKey> = T extends unknown
   : never;
 
 export type RunEventBody = DistributiveOmit<RunEvent, "runId" | "seq" | "ts">;
+
+/**
+ * Emits one event upstream.
+ *
+ * Every agent takes one of these. The caller stamps the envelope and writes the
+ * SSE frame, so an agent never knows how it is being transported.
+ */
+export type EmitFn = (body: RunEventBody) => void;
 
 /**
  * Stamps `runId`, `seq`, and `ts` onto each event so call sites never track

@@ -56,6 +56,19 @@ export default function Home() {
         </p>
       )}
 
+      {state.plan && (
+        <section className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+          <h2 className="text-sm font-medium tracking-wide text-zinc-500 uppercase">
+            Plan
+          </h2>
+          <ol className="mt-2 flex list-decimal flex-col gap-1 pl-5">
+            {state.plan.map((subQuestion) => (
+              <li key={subQuestion}>{subQuestion}</li>
+            ))}
+          </ol>
+        </section>
+      )}
+
       {state.agents.map((agent) => (
         <article
           key={agent.agentId}

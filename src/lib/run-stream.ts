@@ -43,6 +43,8 @@ export type RunState = {
   runId?: string;
   question?: string;
   status: RunStatus;
+  /** The planner's sub-questions, once it has produced them. */
+  plan?: string[];
   agents: AgentView[];
   error?: string;
   /** Highest `seq` applied. Also the resume point for a reconnect. */
@@ -81,9 +83,13 @@ export function reduceRunEvent(state: RunState, event: RunEvent): RunState {
         runId: event.runId,
         question: event.question,
         status: "running",
+        plan: undefined,
         agents: [],
         error: undefined,
       };
+
+    case "plan_ready":
+      return { ...next, plan: event.subQuestions };
 
     case "agent_started":
       return {

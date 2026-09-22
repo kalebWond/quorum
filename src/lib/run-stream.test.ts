@@ -152,6 +152,55 @@ describe("reduceRunEvent", () => {
   });
 });
 
+describe("the plan", () => {
+  it("lands on the run, not on an agent", () => {
+    const e = emit();
+    const state = run(
+      e({ type: "run_started", question: "q" }),
+      e({ type: "plan_ready", subQuestions: ["one?", "two?"] }),
+    );
+
+    expect(state.plan).toEqual(["one?", "two?"]);
+    expect(state.status).toBe("running");
+  });
+
+  it("is cleared when a new run starts", () => {
+    const first = emit();
+    const stale = run(
+      first({ type: "run_started", question: "old" }),
+      first({ type: "plan_ready", subQuestions: ["one?", "two?"] }),
+      first({ type: "run_finished" }),
+    );
+
+    const second = createRunEmitter("run-2");
+    const fresh = reduceRunEvent(
+      stale,
+      second({ type: "run_started", question: "new" }),
+    );
+
+    expect(fresh.plan).toBeUndefined();
+  });
+
+  it("survives a planner that failed after producing a plan", () => {
+    const e = emit();
+    const state = run(
+      e({ type: "run_started", question: "q" }),
+      e({
+        type: "agent_started",
+        agentId: AGENT_A,
+        role: "planner",
+        label: "Planner",
+      }),
+      e({ type: "plan_ready", subQuestions: ["one?", "two?"] }),
+      e({ type: "agent_failed", agentId: AGENT_A, error: "boom" }),
+    );
+
+    expect(state.plan).toEqual(["one?", "two?"]);
+    expect(state.agents[0].status).toBe("failed");
+    expect(state.status).toBe("running");
+  });
+});
+
 describe("the source ledger", () => {
   const started = (e: ReturnType<typeof emit>) => [
     e({ type: "run_started", question: "q" }),
