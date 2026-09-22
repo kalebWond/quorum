@@ -43,6 +43,7 @@ function sample(): RunEvent[] {
     }),
     emit({ type: "agent_finished", agentId: AGENT_ID, summary: "done" }),
     emit({ type: "agent_failed", agentId: AGENT_ID, error: "boom" }),
+    emit({ type: "run_incomplete", missing: ["two?"] }),
     emit({ type: "run_finished" }),
     emit({ type: "run_failed", error: "boom" }),
   ];

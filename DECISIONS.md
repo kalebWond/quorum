@@ -258,3 +258,67 @@ The source count is now reported — the agent emits a note, and the summary say
 invariant that actually matters is not "a source was read" but "every citation
 resolves to a page that was read", and that is Feature 5's job, checked while
 the report is still being assembled and can still be changed.
+
+---
+
+## 15. Cost is a property of the loop, not of the model
+
+**Date:** 2026-09-22
+
+A development session spent roughly $4.50, most of it on parallel runs that
+timed out and returned nothing. The post-mortem changed where cost is managed.
+
+The model choice in decision 8 was the wrong thing to optimise first. The
+dominant cost is that the Messages API is stateless: every turn of the
+researcher's loop re-sends the entire conversation, and by the last turn that
+conversation contains several fetched pages. A five-turn researcher reading
+three pages bills roughly 58k input tokens for about 24k tokens of actual
+content, because the middle of the conversation is paid for four times.
+
+Four changes, in order of effect:
+
+1. **Prompt caching** (`cache_control: { type: "ephemeral" }`) on the
+   researcher's request. `tools`, `system`, and `messages` are all append-only
+   here, so the prefix is stable and each turn reads what the previous one
+   wrote at roughly a tenth of the price.
+2. **`MAX_TURNS` 8 -> 5.** The intended shape is search, read, read, read,
+   answer. A higher ceiling does not buy thoroughness, it permits flailing at
+   the most expensive point in the loop.
+3. **Page text capped at 12k characters**, down from 24k. Fetched text is
+   re-sent every turn, and the answer to a focused sub-question is usually near
+   the top of the page.
+4. **Per-researcher token logging**, so the next live run shows whether the
+   cache is actually being hit rather than requiring a second run to find out.
+
+Context editing (`clear_tool_uses_20250919`) was considered and rejected: it
+drops old tool results from the history, which would invalidate the cached
+prefix on every turn and fight change 1 rather than compound with it.
+
+**Tradeoff:** a smaller page cap and fewer turns mean a researcher can miss
+evidence that sits deep in a long document. That is a quality risk to measure
+once there are credits to measure it with.
+
+---
+
+## 16. Diagnose with the cheapest thing that can answer the question
+
+**Date:** 2026-09-22
+
+Four full live runs were spent diagnosing what turned out to be an exhausted
+credit balance. A 20-line script hitting the API directly found it in 0.7
+seconds for nothing.
+
+Two things made the expensive path look necessary. `runResearchers` mapped
+every unexpected error to `"This researcher failed."` and logged nothing, so a
+400 was indistinguishable from a slow agent. And piped `curl` output is
+buffered, so the timestamps suggested three agents running in parallel when
+they were running one at a time — which sent the investigation after a
+concurrency bug that did not exist.
+
+Both are fixed: unexpected failures are logged server-side with the real error,
+and `scripts/trace-run.mjs` reads the `ts` on each frame instead of trusting
+wall-clock at the reader.
+
+**The rule:** before repeating a run that costs money, state what changed and
+what result would distinguish the hypotheses. If a unit test or a direct probe
+can answer it, the live run is not the diagnostic — it is the confirmation.

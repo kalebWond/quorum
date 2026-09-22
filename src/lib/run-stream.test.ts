@@ -201,6 +201,58 @@ describe("the plan", () => {
   });
 });
 
+describe("a run with gaps", () => {
+  it("finishes as done while recording what is missing", () => {
+    // Feature 4's done-when: one failed researcher still leaves a completed
+    // run that says what it could not answer.
+    const e = emit();
+    const state = run(
+      e({ type: "run_started", question: "q" }),
+      e({ type: "plan_ready", subQuestions: ["one?", "two?"] }),
+      e({
+        type: "agent_started",
+        agentId: AGENT_A,
+        role: "researcher",
+        label: "one?",
+      }),
+      e({
+        type: "agent_started",
+        agentId: AGENT_B,
+        role: "researcher",
+        label: "two?",
+      }),
+      e({ type: "agent_progress", agentId: AGENT_A, delta: "Found it." }),
+      e({ type: "agent_finished", agentId: AGENT_A }),
+      e({ type: "agent_failed", agentId: AGENT_B, error: "Timed out." }),
+      e({ type: "run_incomplete", missing: ["two?"] }),
+      e({ type: "run_finished" }),
+    );
+
+    expect(state.status).toBe("done");
+    expect(state.missing).toEqual(["two?"]);
+    expect(state.agents.map((a) => a.status)).toEqual(["done", "failed"]);
+    expect(state.agents[0].text).toBe("Found it.");
+    expect(state.error).toBeUndefined();
+  });
+
+  it("clears the gaps when a new run starts", () => {
+    const first = emit();
+    const stale = run(
+      first({ type: "run_started", question: "old" }),
+      first({ type: "run_incomplete", missing: ["two?"] }),
+      first({ type: "run_finished" }),
+    );
+
+    const second = createRunEmitter("run-2");
+    const fresh = reduceRunEvent(
+      stale,
+      second({ type: "run_started", question: "new" }),
+    );
+
+    expect(fresh.missing).toBeUndefined();
+  });
+});
+
 describe("the source ledger", () => {
   const started = (e: ReturnType<typeof emit>) => [
     e({ type: "run_started", question: "q" }),

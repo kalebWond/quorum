@@ -7,7 +7,7 @@ import {
   type RunEventBody,
 } from "@/lib/events";
 import { PlanError, runPlanner } from "@/lib/plan";
-import { ResearchError, runResearcher } from "@/lib/research";
+import { ResearchError, runResearchers } from "@/lib/research";
 
 // The Anthropic SDK streams over Node APIs, and this route is long-lived.
 export const runtime = "nodejs";
@@ -41,12 +41,12 @@ function toClientError(error: unknown): string {
 }
 
 /**
- * Feature 3: planner then researcher, streamed over SSE.
+ * Feature 4: a planner, then parallel researchers, streamed over SSE.
  *
  * The agents live in `lib/plan.ts` and `lib/research.ts`; this route owns only
  * the orchestration and the transport — the event schema, the `id:` sequence,
- * and the guarantee that a failure always reaches the client as `run_failed`
- * rather than a hung spinner.
+ * and the guarantee that a run always reaches a terminal event rather than
+ * leaving the UI on a spinner.
  */
 export async function POST(request: Request) {
   let question: string;
@@ -65,7 +65,6 @@ export async function POST(request: Request) {
 
   const runId = crypto.randomUUID();
   const plannerId = crypto.randomUUID();
-  const researcherId = crypto.randomUUID();
   const emit = createRunEmitter(runId);
   const encoder = new TextEncoder();
 
@@ -79,14 +78,14 @@ export async function POST(request: Request) {
 
       const relay = (body: RunEventBody) => send(emit(body));
 
-      // Whoever is mid-flight owns a failure, so the UI marks the right card.
-      let activeAgentId = plannerId;
+      // Set while a single named agent owns the work. Cleared once the
+      // researchers take over, since each of them reports its own failure.
+      let soleAgentId: string | null = plannerId;
 
       try {
         send(emit({ type: "run_started", question }));
 
-        // Plan first. The sub-questions steer the researcher now and become
-        // one researcher each in Feature 4.
+        // Plan first: the sub-questions become one researcher each.
         send(
           emit({
             type: "agent_started",
@@ -101,6 +100,7 @@ export async function POST(request: Request) {
           relay,
           request.signal,
         );
+        soleAgentId = null;
         send(emit({ type: "plan_ready", subQuestions: plan.subQuestions }));
         send(
           emit({
@@ -110,36 +110,34 @@ export async function POST(request: Request) {
           }),
         );
 
-        activeAgentId = researcherId;
-        send(
-          emit({
-            type: "agent_started",
-            agentId: researcherId,
-            role: "researcher",
-            label: "Researcher",
-          }),
-        );
-        const result = await runResearcher(
-          question,
-          researcherId,
+        // One researcher per sub-question, in parallel. Each owns its own
+        // failure, so the run reports what is missing instead of dying.
+        const outcomes = await runResearchers(
+          plan.subQuestions,
           relay,
           request.signal,
-          plan.subQuestions,
         );
 
         if (!request.signal.aborted) {
-          send(
-            emit({
-              type: "agent_finished",
-              agentId: researcherId,
-              summary:
-                result.sources.length === 0
-                  ? "Answered without reading a source."
-                  : `Read ${result.sources.length} source${
-                      result.sources.length === 1 ? "" : "s"
-                    }.`,
-            }),
-          );
+          const failed = outcomes.filter((outcome) => !outcome.ok);
+
+          if (failed.length === outcomes.length) {
+            // Nothing survived. There is no partial result to show, so this is
+            // a run failure rather than a run with gaps.
+            throw new ResearchError(
+              "Every researcher failed, so there is nothing to report.",
+            );
+          }
+
+          if (failed.length > 0) {
+            send(
+              emit({
+                type: "run_incomplete",
+                missing: failed.map((outcome) => outcome.subQuestion),
+              }),
+            );
+          }
+
           send(emit({ type: "run_finished" }));
         }
       } catch (error) {
@@ -151,13 +149,15 @@ export async function POST(request: Request) {
         // every failure path has to produce a terminal event first.
         console.error(`[run ${runId}] failed`, error);
         const message = toClientError(error);
-        send(
-          emit({
-            type: "agent_failed",
-            agentId: activeAgentId,
-            error: message,
-          }),
-        );
+        if (soleAgentId) {
+          send(
+            emit({
+              type: "agent_failed",
+              agentId: soleAgentId,
+              error: message,
+            }),
+          );
+        }
         send(emit({ type: "run_failed", error: message }));
       } finally {
         closed = true;

@@ -17,8 +17,15 @@ import { convert } from "html-to-text";
 const TIMEOUT_MS = 10_000;
 /** Ceiling on bytes read off the wire, enforced while reading. */
 const MAX_BYTES = 1_000_000;
-/** Ceiling on extracted text handed to the model. Roughly 6k tokens. */
-const MAX_TEXT_CHARS = 24_000;
+/**
+ * Ceiling on extracted text handed to the model. Roughly 3k tokens.
+ *
+ * This is the main driver of a run's bill: the text lands in the conversation
+ * and is re-sent on every subsequent turn. The answer to a focused
+ * sub-question is near the top of a page far more often than not, so the
+ * second half of a long article mostly buys tokens rather than evidence.
+ */
+const MAX_TEXT_CHARS = 12_000;
 /** Redirects are followed by hand so each hop can be re-validated. */
 const MAX_REDIRECTS = 5;
 

@@ -22,11 +22,11 @@ describe("parsePlan", () => {
     });
   });
 
-  it("accepts the maximum of five sub-questions", () => {
-    const subQuestions = ["a?", "b?", "c?", "d?", "e?"];
+  it("accepts the maximum of three sub-questions", () => {
+    const subQuestions = ["a?", "b?", "c?"];
     const result = parsePlan(JSON.stringify({ subQuestions }));
 
-    expect(result.ok && result.plan.subQuestions).toHaveLength(5);
+    expect(result.ok && result.plan.subQuestions).toHaveLength(3);
   });
 
   it("recovers JSON wrapped in a code fence", () => {
@@ -54,14 +54,16 @@ describe("parsePlan", () => {
     });
   });
 
-  it("rejects more than five sub-questions", () => {
+  it("rejects more than three sub-questions", () => {
+    // The cap is not cosmetic: each sub-question becomes a researcher, and a
+    // wave has to finish inside the 60s request budget.
     const result = parsePlan(
-      JSON.stringify({ subQuestions: ["a?", "b?", "c?", "d?", "e?", "f?"] }),
+      JSON.stringify({ subQuestions: ["a?", "b?", "c?", "d?"] }),
     );
 
     expect(result).toEqual({
       ok: false,
-      error: "a plan may have at most 5 sub-questions",
+      error: "a plan may have at most 3 sub-questions",
     });
   });
 

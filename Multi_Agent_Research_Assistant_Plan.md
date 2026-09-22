@@ -89,11 +89,13 @@ I'm a senior full-stack engineer (TypeScript, React/Next.js, Node.js, PostgreSQL
 
 **Build:**
 
-- Planner takes the user's question and returns 2–5 sub-questions as structured JSON
+- Planner takes the user's question and returns 2–3 sub-questions as structured JSON
 - Schema validation, with one retry if the output is malformed
 - Show the plan in the UI as soon as it's ready
 
 **Done when:** Varied questions produce sensible, non-overlapping sub-questions, and malformed output is handled gracefully.
+
+**Note:** originally 2–5 sub-questions. Lowered to 2–3 during Feature 4 (2026-09-22) because each sub-question becomes a parallel researcher and a wave has to finish inside Vercel's 60s request budget. See `DECISIONS.md`.
 
 ---
 
@@ -171,6 +173,8 @@ I'm a senior full-stack engineer (TypeScript, React/Next.js, Node.js, PostgreSQL
 - Clear, friendly messages when a limit is hit
 
 **Done when:** The demo can't run up an unexpected bill, and a visitor with no quota left still has something to explore.
+
+**Note:** the per-run token controls landed early, during Feature 4 (2026-09-22), after a development session spent ~$4.50 mostly on timed-out runs: prompt caching on the researcher loop, a lower turn ceiling, a smaller page cap, and per-researcher token logging. What remains for this feature is per-visitor rate limiting, the pre-generated sample reports, and the friendly limit messages. See `DECISIONS.md` entries 15 and 16.
 
 ---
 

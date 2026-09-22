@@ -77,8 +77,9 @@ describe("extractText", () => {
     const text = extractText(`<p>${"word ".repeat(20_000)}</p>`);
 
     expect(text.endsWith("[truncated]")).toBe(true);
-    // The cap plus the marker, not the full page.
-    expect(text.length).toBeLessThan(25_000);
+    // The cap plus the marker, not the full page. The cap is a cost control:
+    // this text is re-sent on every subsequent turn of the researcher's loop.
+    expect(text.length).toBeLessThan(13_000);
   });
 
   it("returns empty string for a page with no readable content", () => {

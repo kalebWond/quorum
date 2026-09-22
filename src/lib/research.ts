@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { getAnthropic, MODEL } from "./anthropic";
+import { mapWithLimit } from "./concurrency";
 import type { EmitFn } from "./events";
 import { fetchPage } from "./fetch-page";
 
@@ -26,19 +27,53 @@ import { fetchPage } from "./fetch-page";
  */
 export class ResearchError extends Error {}
 
-/** Bounds the agentic loop so a confused model cannot spin. */
-const MAX_TURNS = 8;
-/** Bounds retrieval cost per run. Fetched pages dominate the token bill. */
-const MAX_FETCHES = 6;
+/**
+ * Bounds the agentic loop.
+ *
+ * Five is enough for the intended shape — search, read, read, read, answer.
+ * Every extra turn re-sends the whole conversation, so a high ceiling does not
+ * buy thoroughness so much as permit expensive flailing.
+ */
+const MAX_TURNS = 5;
+/**
+ * Bounds retrieval per researcher.
+ *
+ * Deliberately small. A researcher now answers one narrow sub-question, not
+ * the whole question, so it needs a couple of good pages rather than a survey
+ * — and `MAX_PARALLEL` of these run at once against one 60s budget.
+ */
+const MAX_FETCHES = 3;
+/** Searches per researcher. Same reasoning as `MAX_FETCHES`. */
+const MAX_SEARCHES = 2;
+
+/**
+ * Researchers in flight at once.
+ *
+ * The planner caps a plan at 3, so today this never throttles. It is a real
+ * limit rather than a formality because Feature 11 lets the user add
+ * sub-questions, at which point the plan can outgrow the budget.
+ */
+const MAX_PARALLEL = 3;
+
+/**
+ * Wall-clock ceiling for one researcher.
+ *
+ * Sized against the 60s request budget: the planner takes ~5s, and every
+ * researcher runs in the same wave, so the slowest one sets the total.
+ */
+const RESEARCHER_TIMEOUT_MS = 45_000;
 
 const SYSTEM_PROMPT = [
-  "You are the researcher agent for Quorum.",
-  "Research the user's question using the tools before answering.",
-  "Use web_search to find candidate sources, then use fetch_page to actually read",
-  "the most promising ones — search snippets alone are not evidence.",
+  "You are a researcher agent for Quorum, assigned one narrow sub-question.",
+  "Search, read the two or three most promising pages, then report what you found.",
+  "Use web_search to find candidates and fetch_page to actually read them —",
+  "search snippets alone are not evidence.",
   "Ground every specific claim in a page you fetched, and name the source inline.",
   "Never cite a URL you did not fetch successfully.",
   "If the evidence is thin or contradictory, say so plainly rather than papering over it.",
+  "Report findings as tight bullet points, not an essay: a writer agent turns",
+  "several researchers' findings into the final report, so prose here is wasted",
+  "work and slows the whole run down.",
 ].join(" ");
 
 const fetchPageInputSchema = z.object({
@@ -79,7 +114,7 @@ const tools = [
   {
     type: "web_search_20260209" as const,
     name: "web_search" as const,
-    max_uses: 5,
+    max_uses: MAX_SEARCHES,
   },
   {
     name: "fetch_page",
@@ -123,21 +158,22 @@ export async function runResearcher(
   agentId: string,
   emit: EmitFn,
   signal: AbortSignal,
-  subQuestions: string[] = [],
 ): Promise<ResearchResult> {
-  // Feature 3 uses the plan to steer one researcher. Feature 4 replaces this
-  // with one researcher per sub-question, running in parallel.
-  const brief = subQuestions.length
-    ? `${question}\n\nCover these sub-questions:\n${subQuestions
-        .map((sub, index) => `${index + 1}. ${sub}`)
-        .join("\n")}`
-    : question;
-
-  const messages: Anthropic.MessageParam[] = [{ role: "user", content: brief }];
+  const messages: Anthropic.MessageParam[] = [
+    { role: "user", content: question },
+  ];
   /** url -> source, insertion ordered. Only successful fetches land here. */
   const ledger = new Map<string, ResearchSource>();
   let findings = "";
   let fetches = 0;
+  /**
+   * Token tally across turns.
+   *
+   * Logged when the researcher ends so a single live run shows whether the
+   * cache is being hit. `cacheRead` staying at zero across turns means a
+   * silent invalidator crept into the prefix — see DECISIONS 15.
+   */
+  const usage = { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 };
 
   emit({ type: "agent_progress", agentId, note: "Thinking…" });
 
@@ -149,6 +185,13 @@ export async function runResearcher(
       system: SYSTEM_PROMPT,
       tools,
       messages,
+      // The single biggest cost lever in this loop. The API is stateless, so
+      // every turn re-sends the whole conversation — and by the last turn that
+      // is several fetched pages. Caching the prefix makes each re-send a
+      // ~0.1x read instead of full price. Render order is tools -> system ->
+      // messages, and all three are append-only here, so the prefix stays
+      // stable and the next turn hits what this one wrote.
+      cache_control: { type: "ephemeral" },
     });
 
     /** Accumulates streamed tool input, keyed by content block index. */
@@ -228,6 +271,11 @@ export async function runResearcher(
     }
 
     const message = await stream.finalMessage();
+
+    usage.input += message.usage.input_tokens;
+    usage.output += message.usage.output_tokens;
+    usage.cacheRead += message.usage.cache_read_input_tokens ?? 0;
+    usage.cacheWrite += message.usage.cache_creation_input_tokens ?? 0;
 
     if (message.stop_reason === "refusal") {
       throw new ResearchError("The model declined to research this question.");
@@ -321,6 +369,15 @@ export async function runResearcher(
     messages.push({ role: "user", content: results });
   }
 
+  // Cheap observability until Feature 10 does this properly. A timed-out
+  // researcher is aborted before reaching here, and those still bill — which
+  // is exactly why the limits above exist.
+  console.log(
+    `[researcher ${agentId}] in=${usage.input} out=${usage.output} ` +
+      `cacheRead=${usage.cacheRead} cacheWrite=${usage.cacheWrite} ` +
+      `fetches=${fetches}`,
+  );
+
   if (ledger.size === 0) {
     // Not a failure, but the user should know the answer rests on search
     // results rather than on anything this agent actually read.
@@ -344,4 +401,97 @@ export async function runResearcher(
   }
 
   return validated.data;
+}
+
+/** What one researcher produced, or why it did not. */
+export type ResearcherOutcome = {
+  agentId: string;
+  subQuestion: string;
+} & ({ ok: true; result: ResearchResult } | { ok: false; error: string });
+
+/**
+ * Runs one researcher per sub-question: Feature 4.
+ *
+ * Every researcher is isolated. A timeout, a refusal, or a thrown error marks
+ * that one agent failed and leaves the rest of the wave running — the run
+ * reports what is missing rather than dying. The only thing that stops
+ * everything is the client hanging up, which is re-thrown to the caller.
+ */
+export async function runResearchers(
+  subQuestions: string[],
+  emit: EmitFn,
+  signal: AbortSignal,
+  /**
+   * Test seam. `runResearcher` lives in this module, so a test cannot stub it
+   * through the import graph; and a real 45s deadline cannot be waited out in
+   * a unit test. Both defaults are the production values.
+   */
+  options: { run?: typeof runResearcher; timeoutMs?: number } = {},
+): Promise<ResearcherOutcome[]> {
+  const { run = runResearcher, timeoutMs = RESEARCHER_TIMEOUT_MS } = options;
+
+  const settled = await mapWithLimit(
+    subQuestions,
+    MAX_PARALLEL,
+    async (subQuestion): Promise<ResearcherOutcome> => {
+      const agentId = crypto.randomUUID();
+      // The sub-question is the card's heading, so the timeline reads as a
+      // list of what is being investigated rather than "Researcher 1, 2, 3".
+      emit({
+        type: "agent_started",
+        agentId,
+        role: "researcher",
+        label: subQuestion,
+      });
+
+      // Fires on either the client leaving or this researcher overrunning.
+      const deadline = AbortSignal.timeout(timeoutMs);
+      const combined = AbortSignal.any([signal, deadline]);
+
+      try {
+        const result = await run(subQuestion, agentId, emit, combined);
+        emit({
+          type: "agent_finished",
+          agentId,
+          summary:
+            result.sources.length === 0
+              ? "Answered without reading a source."
+              : `Read ${result.sources.length} source${
+                  result.sources.length === 1 ? "" : "s"
+                }.`,
+        });
+        return { ok: true, agentId, subQuestion, result };
+      } catch (error) {
+        // The client hung up: the whole run is over, not just this agent.
+        if (signal.aborted) throw error;
+
+        // The visitor gets a safe summary; the real cause goes to the log,
+        // or an unexpected failure is indistinguishable from a timeout.
+        if (!deadline.aborted && !(error instanceof ResearchError)) {
+          console.error(`[researcher ${agentId}] ${subQuestion}`, error);
+        }
+
+        const message = deadline.aborted
+          ? `Timed out after ${timeoutMs / 1000}s.`
+          : error instanceof ResearchError
+            ? error.message
+            : "This researcher failed.";
+
+        emit({ type: "agent_failed", agentId, error: message });
+        return { ok: false, agentId, subQuestion, error: message };
+      }
+    },
+  );
+
+  // `mapWithLimit` only rejects if a task threw, and the one throw left is the
+  // client leaving — so surface it rather than reporting it as agent failure.
+  const aborted = settled.find((entry) => entry.status === "rejected");
+  if (aborted && aborted.status === "rejected") throw aborted.reason;
+
+  return settled.map((entry) => {
+    if (entry.status !== "fulfilled") {
+      throw new Error("unreachable: rejections are handled above");
+    }
+    return entry.value;
+  });
 }

@@ -46,6 +46,8 @@ export type RunState = {
   /** The planner's sub-questions, once it has produced them. */
   plan?: string[];
   agents: AgentView[];
+  /** Sub-questions no researcher answered. Set when a run completes with gaps. */
+  missing?: string[];
   error?: string;
   /** Highest `seq` applied. Also the resume point for a reconnect. */
   lastSeq: number;
@@ -85,6 +87,7 @@ export function reduceRunEvent(state: RunState, event: RunEvent): RunState {
         status: "running",
         plan: undefined,
         agents: [],
+        missing: undefined,
         error: undefined,
       };
 
@@ -168,6 +171,9 @@ export function reduceRunEvent(state: RunState, event: RunEvent): RunState {
           error: event.error,
         })),
       };
+
+    case "run_incomplete":
+      return { ...next, missing: event.missing };
 
     case "run_finished":
       return { ...next, status: "done" };

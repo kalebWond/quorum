@@ -87,6 +87,18 @@ export const runEventSchema = z.discriminatedUnion("type", [
     type: z.literal("agent_failed"),
     error: z.string(),
   }),
+  z.object({
+    ...envelope,
+    /**
+     * The run finished, but some sub-questions went unanswered.
+     *
+     * Feature 4 requires a run with a failed researcher to complete and report
+     * what is missing. Separate from `run_failed`: there is still a result,
+     * just an incomplete one. Emitted before `run_finished`, never instead.
+     */
+    type: z.literal("run_incomplete"),
+    missing: z.array(z.string()).min(1),
+  }),
   z.object({ ...envelope, type: z.literal("run_finished") }),
   z.object({ ...envelope, type: z.literal("run_failed"), error: z.string() }),
 ]);

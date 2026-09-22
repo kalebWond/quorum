@@ -33,14 +33,14 @@ export const planSchema = z.object({
   subQuestions: z
     .array(z.string().trim().min(1))
     .min(2, "a plan needs at least 2 sub-questions")
-    .max(5, "a plan may have at most 5 sub-questions"),
+    .max(3, "a plan may have at most 3 sub-questions"),
 });
 
 export type Plan = z.infer<typeof planSchema>;
 
 const SYSTEM_PROMPT = [
   "You are the planner agent for Quorum.",
-  "Break the user's question into 2-5 focused sub-questions that can each be",
+  "Break the user's question into 2-3 focused sub-questions that can each be",
   "researched independently, and that together cover the original question.",
   "Each sub-question must stand alone — a researcher will see it without the",
   "others and without the original question.",

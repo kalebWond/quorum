@@ -69,6 +69,15 @@ export default function Home() {
         </section>
       )}
 
+      {state.missing && (
+        <p
+          role="status"
+          className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200"
+        >
+          Finished with gaps — nothing was found for: {state.missing.join("; ")}
+        </p>
+      )}
+
       {state.agents.map((agent) => (
         <article
           key={agent.agentId}
