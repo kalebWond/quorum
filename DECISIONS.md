@@ -322,3 +322,53 @@ wall-clock at the reader.
 **The rule:** before repeating a run that costs money, state what changed and
 what result would distinguish the hypotheses. If a unit test or a direct probe
 can answer it, the live run is not the diagnostic — it is the confirmation.
+
+---
+
+## 17. The report the user keeps is not the draft they watched arrive
+
+**Date:** 2026-09-22
+
+The writer's draft streams as `delta`, so the report is visibly written. But
+the draft is not the artifact: `report_ready` carries the citation-verified
+copy, and the UI renders that in place of the streamed text once it lands.
+
+Verification cannot happen mid-stream. Whether a citation resolves is only
+answerable once the sentence containing it is complete, and stripping text the
+user has already read is worse than replacing the whole block at once.
+
+Decision 14 established that a streamed answer cannot be retracted by a
+validator. This is the shape that respects it: the draft is framed as a draft,
+the verified report is a separate artifact, and the swap happens at a natural
+boundary rather than mid-sentence. Showing "3 unverifiable citations removed"
+above the report turns the check into something a visitor can see working,
+which is the point of the feature.
+
+---
+
+## 18. Citations are verified by construction, not by prompting
+
+**Date:** 2026-09-22
+
+`src/lib/citations.ts` takes the writer's draft and the union of every
+researcher's fetched-URL ledger, and removes any citation that does not
+resolve: a `[n]` past the end of the source list, a markdown link to a URL
+nobody fetched, and a bare URL nobody fetched. The prose survives; only the
+unearned citation goes.
+
+The system prompt also asks for honest citations, but a prompt is a request.
+The guarantee the project actually advertises — every citation maps to a page
+a researcher read — has to be a property of the code, and it is: the module is
+pure, and 17 tests cover it, including a deliberately invented URL. A mutation
+that trusted the writer's URLs instead of the ledger was checked to fail three
+of them.
+
+Two details that turned out to matter. URLs are normalised before comparison
+(fragment, trailing slash, `www.`, host case) because a writer echoing a
+source varies all four, and treating those as different pages would strip
+legitimate citations. Path case is deliberately preserved, since it can be
+significant.
+
+**Tradeoff:** the verifier checks that a citation _resolves_, not that the
+source _supports the claim_. Attribution to the wrong fetched page is not
+detectable here — that is the critic's job in Feature 9.

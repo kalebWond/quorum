@@ -37,6 +37,13 @@ export type AgentView = {
   error?: string;
 };
 
+/** The verified report, as the UI renders it. */
+export type ReportView = {
+  markdown: string;
+  sources: { index: number; url: string; title?: string }[];
+  rejected: { text: string; reason: string }[];
+};
+
 export type RunStatus = "idle" | "running" | "done" | "failed";
 
 export type RunState = {
@@ -48,6 +55,8 @@ export type RunState = {
   agents: AgentView[];
   /** Sub-questions no researcher answered. Set when a run completes with gaps. */
   missing?: string[];
+  /** The finished, citation-verified report. */
+  report?: ReportView;
   error?: string;
   /** Highest `seq` applied. Also the resume point for a reconnect. */
   lastSeq: number;
@@ -88,6 +97,7 @@ export function reduceRunEvent(state: RunState, event: RunEvent): RunState {
         plan: undefined,
         agents: [],
         missing: undefined,
+        report: undefined,
         error: undefined,
       };
 
@@ -170,6 +180,16 @@ export function reduceRunEvent(state: RunState, event: RunEvent): RunState {
           status: "failed",
           error: event.error,
         })),
+      };
+
+    case "report_ready":
+      return {
+        ...next,
+        report: {
+          markdown: event.markdown,
+          sources: event.sources,
+          rejected: event.rejected,
+        },
       };
 
     case "run_incomplete":

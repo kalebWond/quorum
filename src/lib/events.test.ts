@@ -43,6 +43,12 @@ function sample(): RunEvent[] {
     }),
     emit({ type: "agent_finished", agentId: AGENT_ID, summary: "done" }),
     emit({ type: "agent_failed", agentId: AGENT_ID, error: "boom" }),
+    emit({
+      type: "report_ready",
+      markdown: "The finding [1].",
+      sources: [{ index: 1, url: "https://example.com/a", title: "A" }],
+      rejected: [{ text: "[9]", reason: "no such source" }],
+    }),
     emit({ type: "run_incomplete", missing: ["two?"] }),
     emit({ type: "run_finished" }),
     emit({ type: "run_failed", error: "boom" }),

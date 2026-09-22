@@ -8,6 +8,7 @@ import {
 } from "@/lib/events";
 import { PlanError, runPlanner } from "@/lib/plan";
 import { ResearchError, runResearchers } from "@/lib/research";
+import { runWriter, WriteError } from "@/lib/write";
 
 // The Anthropic SDK streams over Node APIs, and this route is long-lived.
 export const runtime = "nodejs";
@@ -25,7 +26,11 @@ const requestSchema = z.object({
  */
 function toClientError(error: unknown): string {
   // Raised deliberately by an agent, and already phrased for a visitor.
-  if (error instanceof ResearchError || error instanceof PlanError) {
+  if (
+    error instanceof ResearchError ||
+    error instanceof PlanError ||
+    error instanceof WriteError
+  ) {
     return error.message;
   }
   if (error instanceof Anthropic.AuthenticationError) {
@@ -41,7 +46,7 @@ function toClientError(error: unknown): string {
 }
 
 /**
- * Feature 4: a planner, then parallel researchers, streamed over SSE.
+ * Feature 5: a planner, parallel researchers, then a writer, over SSE.
  *
  * The agents live in `lib/plan.ts` and `lib/research.ts`; this route owns only
  * the orchestration and the transport — the event schema, the `id:` sequence,
@@ -65,6 +70,7 @@ export async function POST(request: Request) {
 
   const runId = crypto.randomUUID();
   const plannerId = crypto.randomUUID();
+  const writerId = crypto.randomUUID();
   const emit = createRunEmitter(runId);
   const encoder = new TextEncoder();
 
@@ -138,7 +144,42 @@ export async function POST(request: Request) {
             );
           }
 
-          send(emit({ type: "run_finished" }));
+          // The writer is a single named agent again, so it owns a failure.
+          soleAgentId = writerId;
+          send(
+            emit({
+              type: "agent_started",
+              agentId: writerId,
+              role: "writer",
+              label: "Writer",
+            }),
+          );
+          const report = await runWriter(
+            question,
+            outcomes,
+            writerId,
+            relay,
+            request.signal,
+          );
+
+          if (!request.signal.aborted) {
+            send(
+              emit({
+                type: "report_ready",
+                markdown: report.markdown,
+                sources: report.cited,
+                rejected: report.rejected,
+              }),
+            );
+            send(
+              emit({
+                type: "agent_finished",
+                agentId: writerId,
+                summary: `Cited ${report.cited.length} of ${report.sources.length} sources.`,
+              }),
+            );
+            send(emit({ type: "run_finished" }));
+          }
         }
       } catch (error) {
         // The client hung up. Nothing is listening, so emit nothing and let

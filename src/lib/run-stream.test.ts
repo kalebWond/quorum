@@ -201,6 +201,59 @@ describe("the plan", () => {
   });
 });
 
+describe("the report", () => {
+  it("supersedes the writer's streamed draft", () => {
+    // The draft streams so the report is visibly written, but the verified
+    // copy is what the run keeps — the draft may contain citations the
+    // verifier stripped.
+    const e = emit();
+    const state = run(
+      e({ type: "run_started", question: "q" }),
+      e({
+        type: "agent_started",
+        agentId: AGENT_A,
+        role: "writer",
+        label: "Writer",
+      }),
+      e({ type: "agent_progress", agentId: AGENT_A, delta: "Draft [9]." }),
+      e({
+        type: "report_ready",
+        markdown: "Draft.",
+        sources: [{ index: 1, url: "https://example.com/a" }],
+        rejected: [{ text: "[9]", reason: "no such source" }],
+      }),
+      e({ type: "run_finished" }),
+    );
+
+    expect(state.agents[0].text).toBe("Draft [9].");
+    expect(state.report?.markdown).toBe("Draft.");
+    expect(state.report?.rejected).toHaveLength(1);
+    expect(state.report?.sources[0].index).toBe(1);
+  });
+
+  it("is cleared when a new run starts", () => {
+    const first = emit();
+    const stale = run(
+      first({ type: "run_started", question: "old" }),
+      first({
+        type: "report_ready",
+        markdown: "Old report.",
+        sources: [],
+        rejected: [],
+      }),
+      first({ type: "run_finished" }),
+    );
+
+    const second = createRunEmitter("run-2");
+    const fresh = reduceRunEvent(
+      stale,
+      second({ type: "run_started", question: "new" }),
+    );
+
+    expect(fresh.report).toBeUndefined();
+  });
+});
+
 describe("a run with gaps", () => {
   it("finishes as done while recording what is missing", () => {
     // Feature 4's done-when: one failed researcher still leaves a completed

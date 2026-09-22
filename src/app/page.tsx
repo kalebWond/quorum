@@ -78,6 +78,46 @@ export default function Home() {
         </p>
       )}
 
+      {state.report && (
+        <section className="flex flex-col gap-4 rounded-lg border border-zinc-300 p-5 dark:border-zinc-700">
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-sm font-medium tracking-wide text-zinc-500 uppercase">
+              Report
+            </h2>
+            {state.report.rejected.length > 0 && (
+              <span className="text-xs text-amber-700 dark:text-amber-400">
+                {state.report.rejected.length} unverifiable citation
+                {state.report.rejected.length === 1 ? "" : "s"} removed
+              </span>
+            )}
+          </div>
+
+          <div className="leading-relaxed whitespace-pre-wrap">
+            {state.report.markdown}
+          </div>
+
+          {state.report.sources.length > 0 && (
+            <ol className="flex flex-col gap-1 border-t border-zinc-200 pt-3 text-sm dark:border-zinc-800">
+              {state.report.sources.map((source) => (
+                <li key={source.index} className="flex gap-2">
+                  <span className="shrink-0 text-zinc-500">
+                    [{source.index}]
+                  </span>
+                  <a
+                    href={source.url}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="truncate underline decoration-zinc-300 underline-offset-2"
+                  >
+                    {source.title ?? source.url}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          )}
+        </section>
+      )}
+
       {state.agents.map((agent) => (
         <article
           key={agent.agentId}
@@ -134,7 +174,7 @@ export default function Home() {
             </ul>
           )}
 
-          {agent.text && (
+          {agent.text && !(agent.role === "writer" && state.report) && (
             <p className="leading-relaxed whitespace-pre-wrap">{agent.text}</p>
           )}
 

@@ -90,6 +90,32 @@ export const runEventSchema = z.discriminatedUnion("type", [
   z.object({
     ...envelope,
     /**
+     * The finished report, after citation verification.
+     *
+     * The writer's draft streams as `delta` so the report is visibly written,
+     * but the draft is not what gets kept: this event carries the verified
+     * copy, and the UI renders it in place of the streamed text. `rejected`
+     * is the evidence that the check did something.
+     */
+    type: z.literal("report_ready"),
+    markdown: z.string(),
+    sources: z.array(
+      z.object({
+        index: z.number().int().positive(),
+        url: z.string().url(),
+        title: z.string().optional(),
+      }),
+    ),
+    rejected: z.array(
+      z.object({
+        text: z.string(),
+        reason: z.enum(["unknown url", "no such source"]),
+      }),
+    ),
+  }),
+  z.object({
+    ...envelope,
+    /**
      * The run finished, but some sub-questions went unanswered.
      *
      * Feature 4 requires a run with a failed researcher to complete and report
